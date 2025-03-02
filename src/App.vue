@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Loader from './components/Loader.vue'
+import Loader from '@/components/Loader.vue'
 import LoginScreen from './components/LoginScreen.vue';
 import AboutPage from './components/AboutPage.vue';
 
@@ -28,7 +28,7 @@ export default {
     mounted() {
         setTimeout(() => {
             this.showLoader = false;
-        }, 6000); // משך זמן הצגת הלואדר (6 שניות)
+        }, 4000); // משך זמן הצגת הלואדר (6 שניות)
     }
 };
 </script>
