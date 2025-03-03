@@ -6,8 +6,8 @@
         <button class = "admin-button" @click="setView('admin')">כניסת מנהל</button>
         <button class = "guest-button" @click="setView('guest')">כניסת אורח</button>
     </div>
-    <AdminIn v-if = "currentView === 'admin'" @go-back="setView('login')"></AdminIn>
-    <GuestIn v-if = "currentView === 'guest'" @go-back="setView('login')"></GuestIn>
+    <AdminIn v-if = "currentView === 'admin'" @go-back="setView('login')"  @login-success="handleLoginSuccess"></AdminIn>
+    <GuestIn v-if = "currentView === 'guest'" @go-back="setView('login')"  @login-success="handleLoginSuccess"></GuestIn>
   </div>
 </template>
 
@@ -29,7 +29,11 @@ export default {
   },
   methods: {
     setView(view) {
-      this.currentView = view; // שינוי המסך המוצג
+      this.currentView = view; 
+    },
+    
+    handleLoginSuccess(userType) {
+      this.$emit('user-logged-in', userType);
     }
   },
 };

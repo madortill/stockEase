@@ -2,12 +2,27 @@
   <div id="admin-in">
     <h1>ברוך הבא, מנהל!</h1>
     <div class="admin-login">
-      <input class="user-admin" type="text" v-model="username" placeholder="שם משתמש" />
-      <input class="password-admin" type="password" v-model="password" placeholder="סיסמה" />
+      <input
+        class="user-admin"
+        type="text"
+        v-model="username"
+        placeholder="שם משתמש"
+      />
+      <input
+        class="password-admin"
+        type="password"
+        v-model="password"
+        placeholder="סיסמה"
+      />
       <button class="login-admin" @click="login">התחברות</button>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
-    <img src="@/assets/media/icons/undo.svg" alt="חזור" class="back-button" @click="$emit('go-back')" />
+    <img
+      src="@/assets/media/icons/undo.svg"
+      alt="חזור"
+      class="back-button"
+      @click="$emit('go-back')"
+    />
 
     <!-- הודעה מוקפצת עם אפקט fade-out -->
     <transition name="fade">
@@ -28,7 +43,7 @@ export default {
       password: "",
       errorMessage: "",
       showPopup: false, // האם להציג את ההודעה
-      popupMessage: "" // תוכן ההודעה המוקפצת
+      popupMessage: "", // תוכן ההודעה המוקפצת
     };
   },
   methods: {
@@ -42,6 +57,10 @@ export default {
       if (this.username === "admin" && this.password === "1234") {
         this.showPopupMessage("התחברת בהצלחה!");
         this.errorMessage = "";
+        setTimeout(() => {
+          this.$emit("login-success", "admin"); 
+        }, 1000);
+
       } else {
         this.errorMessage = "שם משתמש או סיסמה שגויים";
       }
@@ -52,8 +71,8 @@ export default {
     },
     closePopup() {
       this.showPopup = false; // מפעיל את האנימציה של fade-out
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -80,7 +99,8 @@ h1 {
   max-width: 300px;
 }
 
-.user-admin, .password-admin {
+.user-admin,
+.password-admin {
   width: 100%;
   padding: 10px;
   margin: 5px 0;
@@ -139,7 +159,7 @@ h1 {
 .close-popup {
   margin-top: 15px;
   padding: 8px 20px;
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
   border: none;
   border-radius: 5px;
@@ -152,11 +172,13 @@ h1 {
 }
 
 /* אנימציה להופעה והיעלמות של ההודעה */
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s ease-in-out;
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

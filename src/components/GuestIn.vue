@@ -127,6 +127,9 @@ export default {
 
       this.formError = "";
       this.showPopupMessage(`ברוך הבא, ${this.firstName} ${this.lastName}!`);
+      setTimeout(() => {
+          this.$emit("login-success", "guest"); 
+      }, 1000);
     },
 
     showPopupMessage(message) {

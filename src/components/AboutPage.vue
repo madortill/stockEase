@@ -93,14 +93,12 @@ export default {
 
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: red;
-  color: white;
-  border: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
+    top: 10px;
+    right: 10px;
+    color: #000000;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="Loader">
+  <div id="Loader">
     <img 
         class="gif" 
         src="/src/assets/gifs/gif-till.gif" 
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.Loader {
+#Loader {
   display: flex;
     flex-direction: column;
     align-items: center;
