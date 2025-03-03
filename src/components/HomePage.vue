@@ -1,22 +1,24 @@
 <template>
   <div id="home-page">
-    <AdminPage v-if="userType === 'admin'"></AdminPage>
-    <GusetPage v-else-if="userType === 'guest'"></GusetPage>
+    <AdminPage v-if="userType === 'admin'" :admin-data = "userData"></AdminPage>
+    <GuestPage v-else-if="userType === 'guest'" :guest-data = "userData"></GuestPage>
   </div>
 </template>
 
+
 <script>
 import AdminPage from "@/components/AdminPage.vue";
-import GusetPage from "@/components/GusetPage.vue";
+import GuestPage from "@/components/GuestPage.vue";
 
 export default {
   name: "home-page",
   props: {
-    userType: String 
+    userType: String,
+    userData: Object
   },
   components: {
     AdminPage,
-    GusetPage,
+    GuestPage,
   },
   data() {
     return {};

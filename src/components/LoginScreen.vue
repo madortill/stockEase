@@ -32,8 +32,9 @@ export default {
       this.currentView = view; 
     },
     
-    handleLoginSuccess(userType) {
-      this.$emit('user-logged-in', userType);
+    handleLoginSuccess(data) {
+      this.$emit('user-logged-in', data);
+
     }
   },
 };

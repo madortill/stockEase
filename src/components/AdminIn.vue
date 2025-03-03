@@ -58,7 +58,10 @@ export default {
         this.showPopupMessage("התחברת בהצלחה!");
         this.errorMessage = "";
         setTimeout(() => {
-          this.$emit("login-success", "admin"); 
+          this.$emit("login-success", {
+            fullName: "admin user",
+            userType: "admin",
+          }); 
         }, 1000);
 
       } else {

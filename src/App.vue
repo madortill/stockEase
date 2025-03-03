@@ -5,7 +5,7 @@
       <AboutPage></AboutPage>
       <LoginScreen @user-logged-in="setUserPage"></LoginScreen>
     </div>
-    <HomePage v-if = "showPage" :userType="userType"></HomePage>
+    <HomePage v-if="showPage" :user-type="userType" :user-data = "userData"></HomePage>
   </div>
 </template>
 
@@ -14,9 +14,9 @@ import Loader from "@/components/Loader.vue";
 import LoginScreen from "./components/LoginScreen.vue";
 import AboutPage from "./components/AboutPage.vue";
 import HomePage from "./components/HomePage.vue";
+
 export default {
   name: "App",
-  props: [""],
   components: {
     LoginScreen,
     AboutPage,
@@ -29,12 +29,20 @@ export default {
       showLogin: false,
       showPage: false,
       userType: null,
+      userData: {},
     };
   },
   methods: {
-    setUserPage(userType) {
-      this.userType = userType; 
-      this.showLogin = false; 
+    setUserPage(data) {
+      this.userData = data;
+      this.userType = data.userType;
+      console.log(
+        "User Data in App.vue:",
+        JSON.stringify(this.userData, null, 2)
+      );
+      console.log("User Type in App.vue:", this.userType);
+      console.log(data);
+      this.showLogin = false;
       this.showPage = true;
     },
   },

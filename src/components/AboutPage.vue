@@ -1,10 +1,18 @@
 <template>
   <div id="about-page">
-    <button class="button-about" @click="toggleAbout"  :disabled="isDisables">i</button>
+    <button class="button-about" @click="toggleAbout" :disabled="isDisables">
+      i
+    </button>
     <div v-if="showAbout" class="about-div">
       <h1>אודות</h1>
-      <p>כאן ניתן להוסיף מידע על האתר או על היוצרים.</p>
+      <div v-for="(title, index) in titleArray" :key="'title-' + index">
+        <h3>{{ title }}</h3>
+        <p v-for="(name, idx) in namesArray[index]" :key="'name-' + idx">
+          {{ name }}
+        </p>
+      </div>
       <button class="close-button" @click="toggleAbout">X</button>
+      <img src="/src/assets/media/icons/TillLogo.svg" alt = "till-logo" class="till-logo">
     </div>
   </div>
 </template>
@@ -16,22 +24,21 @@ export default {
   data() {
     return {
       showAbout: false,
-      isDisables: false, 
-      
+      isDisables: false,
+      titleArray: ["מפתחת ראשית", "מומחה תוכן", "רמד טיל"],
+      namesArray: [["רבט אדוה אבא"], ["רסם שלומי אוגרן"], ["רסם עדן בן חמו"]],
     };
   },
   methods: {
-
     toggleAbout() {
-        if(!this.isDisables) {
-            this.showAbout = !this.showAbout;
-            this.isDisables = true;
-        } else {
-            this.isDisables = false;
-            this.showAbout = !this.showAbout;
-        }
+      if (!this.isDisables) {
+        this.showAbout = !this.showAbout;
+        this.isDisables = true;
+      } else {
+        this.isDisables = false;
+        this.showAbout = !this.showAbout;
+      }
     },
-
   },
 };
 </script>
@@ -93,12 +100,16 @@ export default {
 
 .close-button {
   position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #000000;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.5rem;
+  top: 10px;
+  right: 10px;
+  color: #000000;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.till-logo {
+  width: 6rem;
 }
 </style>

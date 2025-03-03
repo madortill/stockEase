@@ -47,10 +47,8 @@
           {{ rankOption }}
         </option>
       </select>
-
       <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
       <p v-if="formError" class="error-message">{{ formError }}</p>
-
       <button class="submit-button" @click="submitForm">כניסה</button>
     </div>
 
@@ -127,9 +125,16 @@ export default {
 
       this.formError = "";
       this.showPopupMessage(`ברוך הבא, ${this.firstName} ${this.lastName}!`);
-      setTimeout(() => {
-          this.$emit("login-success", "guest"); 
-      }, 1000);
+
+      this.$emit("login-success", {
+        fullName: `${this.firstName} ${this.lastName}`,
+        personalNumber: this.personalNumber,
+        phoneNumber: this.phoneNumber,
+        role: this.role,
+        selectedDate: this.selectedDate,
+        rank: this.rank,
+        userType: "guest",
+      });
     },
 
     showPopupMessage(message) {
@@ -186,7 +191,7 @@ export default {
 .submit-button {
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: px;
   font-size: 1rem;
   background-color: #023047;
   color: white;
@@ -204,6 +209,7 @@ export default {
   color: red;
   font-size: 0.9rem;
   margin-top: 5px;
+
 }
 
 /* עיצוב ההודעה המוקפצת */
