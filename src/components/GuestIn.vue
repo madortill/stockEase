@@ -20,7 +20,9 @@
         type="text"
         v-model="personalNumber"
         placeholder="מספר אישי"
+        @input="validatePersonalNumber"
       />
+      <p v-if="personalNumberError" class="error-message">{{ personalNumberError }}</p>
       <input
         class="phone-number"
         type="tel"
@@ -29,6 +31,7 @@
         @input="validatePhoneNumber"
         dir="rtl"
       />
+      <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
       <input class="job-guest" type="text" v-model="role" placeholder="תפקיד" />
       <input
         class="date-guest"
@@ -47,7 +50,6 @@
           {{ rankOption }}
         </option>
       </select>
-      <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
       <p v-if="formError" class="error-message">{{ formError }}</p>
       <button class="submit-button" @click="submitForm">כניסה</button>
     </div>
@@ -82,8 +84,9 @@ export default {
       rank: "",
       ranks: ["טוראי", 'רב"ט', "סמל", 'סמ"ר', 'רס"ל'],
       today: this.getTodayDate(),
-      showPopup: false, // האם להציג את ההודעה המוקפצת
-      popupMessage: "", // תוכן ההודעה
+      showPopup: false, 
+      popupMessage: "", 
+      personalNumberError: "", 
     };
   },
   methods: {
@@ -136,13 +139,18 @@ export default {
         userType: "guest",
       });
     },
-
+    validatePersonalNumber() {
+      const personalNumberPattern = /^[0-9]{7}$/;
+      this.personalNumberError = this.personalNumber && !personalNumberPattern.test(this.personalNumber)
+        ? "נא להזין מספר אישי תקין (7 ספרות)"
+        : "";
+    },
     showPopupMessage(message) {
       this.popupMessage = message;
       this.showPopup = true;
-      setTimeout(() => {
+      // setTimeout(() => {
         this.showPopup = false;
-      }, 2500);
+      // }, 2500);
     },
   },
 };

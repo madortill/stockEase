@@ -1,10 +1,15 @@
 <template>
   <div id="home-page">
-    <AdminPage v-if="userType === 'admin'" :admin-data = "userData"></AdminPage>
-    <GuestPage v-else-if="userType === 'guest'" :guest-data = "userData"></GuestPage>
+    <img
+      src="@/assets/media/icons/exit.svg"
+      alt="התנתק"
+      class="return-button"
+      @click = "logout"
+    />
+    <AdminPage v-if="userType === 'admin'" :admin-data="userData"></AdminPage>
+    <GuestPage v-else-if="userType === 'guest'" :guest-data="userData"></GuestPage>
   </div>
 </template>
-
 
 <script>
 import AdminPage from "@/components/AdminPage.vue";
@@ -21,10 +26,29 @@ export default {
     GuestPage,
   },
   data() {
-    return {};
+    return {
+      currentView: 'login',
+    };
   },
-  methods: {},
+  methods: {
+    logout(view) {
+      this.$emit("logout", )
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#home-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.return-button {
+  width: 1.5rem;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+</style>

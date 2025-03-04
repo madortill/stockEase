@@ -5,7 +5,16 @@
       <AboutPage></AboutPage>
       <LoginScreen @user-logged-in="setUserPage"></LoginScreen>
     </div>
-    <HomePage v-if="showPage" :user-type="userType" :user-data = "userData"></HomePage>
+    <HomePage
+      v-if="showPage"
+      :user-type="userType"
+      :user-data="userData"
+      @logout="backToLogin"
+    ></HomePage>
+    <div v-if = "showLogout" class="logout-div">
+      <div class="donut"></div>
+      <p>מבצע התנתקות</p>
+    </div>
   </div>
 </template>
 
@@ -28,6 +37,7 @@ export default {
       showLoader: true,
       showLogin: false,
       showPage: false,
+      showLogout: false,
       userType: null,
       userData: {},
     };
@@ -45,6 +55,12 @@ export default {
       this.showLogin = false;
       this.showPage = true;
     },
+
+    backToLogin() {
+      this.showPage = false;
+      this.showLogin = true;
+    },
+    
   },
   mounted() {
     setTimeout(() => {
@@ -68,7 +84,7 @@ export default {
 
 * {
   overflow: hidden;
-  font-family: "Heebo";
+  font-family: "Assistant";
 }
 body {
   margin: 0;
@@ -84,5 +100,27 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.logout-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  flex-direction: column;
+}
+.donut {
+  width: 4rem;
+  height: 4rem;
+  margin: 2rem;
+  border-radius: 50%;
+  border: 0.5rem solid #ffffff83;
+  border-top-color: #828282db;
+  animation: 1.5s spin infinite linear;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
