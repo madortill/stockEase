@@ -54,13 +54,6 @@
       <button class="submit-button" @click="submitForm">כניסה</button>
     </div>
 
-    <img
-      src="@/assets/media/icons/undo.svg"
-      alt="חזור"
-      class="back-button"
-      @click="$emit('go-back')"
-    />
-
     <!-- הודעה מוקפצת -->
     <div v-if="showPopup" class="popup">
       <p>{{ popupMessage }}</p>
@@ -159,13 +152,6 @@ export default {
 <style scoped>
 #guest-in {
   margin-top: -30px;
-}
-.back-button {
-  width: 40px;
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  cursor: pointer;
 }
 
 .guest-login {

@@ -3,7 +3,7 @@
     <Loader v-if="showLoader"></Loader>
     <div v-if="showLogin">
       <AboutPage></AboutPage>
-      <LoginScreen @user-logged-in="setUserPage"></LoginScreen>
+      <LoginScreen @user-logged-in="setUserPage"  @logout="backToLogin"></LoginScreen>
     </div>
     <HomePage
       v-if="showPage"
@@ -11,7 +11,7 @@
       :user-data="userData"
       @logout="backToLogin"
     ></HomePage>
-    <div v-if = "showLogout" class="logout-div">
+    <div v-if="showLogout" class="logout-div">
       <div class="donut"></div>
       <p>מבצע התנתקות</p>
     </div>
@@ -46,21 +46,19 @@ export default {
     setUserPage(data) {
       this.userData = data;
       this.userType = data.userType;
-      console.log(
-        "User Data in App.vue:",
-        JSON.stringify(this.userData, null, 2)
-      );
-      console.log("User Type in App.vue:", this.userType);
-      console.log(data);
       this.showLogin = false;
       this.showPage = true;
     },
 
     backToLogin() {
       this.showPage = false;
-      this.showLogin = true;
+      setTimeout(() => {
+        this.showLogin = true;
+        this.showLogout = false;
+      }, 2000);
+      this.showLogin = false;
+      this.showLogout = true;
     },
-    
   },
   mounted() {
     setTimeout(() => {

@@ -17,12 +17,7 @@
       <button class="login-admin" @click="login">התחברות</button>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
-    <img
-      src="@/assets/media/icons/undo.svg"
-      alt="חזור"
-      class="back-button"
-      @click="$emit('go-back')"
-    />
+   
 
     <!-- הודעה מוקפצת עם אפקט fade-out -->
     <transition name="fade">
@@ -127,14 +122,6 @@ h1 {
 
 .login-admin:hover {
   background-color: #03546e;
-}
-
-.back-button {
-  width: 12%;
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  cursor: pointer;
 }
 
 .error {

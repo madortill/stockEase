@@ -31,8 +31,8 @@ export default {
     };
   },
   methods: {
-    logout(view) {
-      this.$emit("logout", )
+    logout() {
+      this.$emit("logout");
     },
   },
 };
