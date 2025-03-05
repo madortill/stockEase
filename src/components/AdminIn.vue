@@ -23,7 +23,7 @@
     <transition name="fade">
       <div v-if="showPopup" class="popup">
         <p>{{ popupMessage }}</p>
-        <button class="close-popup" @click="closePopup">אישור</button>
+        <!-- <button class="close-popup" @click="closePopup">אישור</button> -->
       </div>
     </transition>
   </div>
@@ -68,7 +68,7 @@ export default {
       this.showPopup = true;
     },
     closePopup() {
-      this.showPopup = false; // מפעיל את האנימציה של fade-out
+      this.showPopup = false; 
     },
   },
 };

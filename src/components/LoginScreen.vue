@@ -40,6 +40,7 @@ export default {
   data() {
     return {
       currentView: "login",
+      currentPage: 'loginScreen',
     };
   },
   methods: {
@@ -52,7 +53,7 @@ export default {
     },
 
     backToLogin() {
-      this.$emit("logout");
+      this.$emit("logout", this.currentPage);
     },
   },
 };

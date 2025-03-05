@@ -13,7 +13,8 @@
     ></HomePage>
     <div v-if="showLogout" class="logout-div">
       <div class="donut"></div>
-      <p>מבצע התנתקות</p>
+      <p v-if = "pDount">מבצע התנתקות</p>
+      <p v-else>חזרה לדף התחברות</p>
     </div>
   </div>
 </template>
@@ -40,6 +41,7 @@ export default {
       showLogout: false,
       userType: null,
       userData: {},
+      pDount: null,
     };
   },
   methods: {
@@ -50,7 +52,13 @@ export default {
       this.showPage = true;
     },
 
-    backToLogin() {
+    backToLogin(page) {
+      let currentPage = page;
+      if(currentPage === 'homePage'){
+        this.pDount = true;
+      } else {
+        this.pDount = false;
+      }
       this.showPage = false;
       setTimeout(() => {
         this.showLogin = true;

@@ -28,11 +28,12 @@ export default {
   data() {
     return {
       currentView: 'login',
+      currentPage: 'homePage'
     };
   },
   methods: {
     logout() {
-      this.$emit("logout");
+      this.$emit("logout", this.currentPage);
     },
   },
 };

@@ -1,31 +1,14 @@
 <template>
   <div id="admin-page">
-    <header>
-      <h1>ברוך הבא, {{ adminData.fullName }}!</h1>
-      <button @click="logout">התנתק</button>
+    <header class = "header">
+      <h2>ברוך הבא, {{ adminData.fullName }}!</h2>
     </header>
-
-    <section class="stats">
-      <div class="stat-box">
-        <h2>25</h2>
-        <p>מוצרים במלאי</p>
-      </div>
-      <div class="stat-box">
-        <h2>5</h2>
-        <p>הזמנות חדשות</p>
-      </div>
-      <div class="stat-box">
-        <h2>12</h2>
-        <p>לקוחות פעילים</p>
-      </div>
-    </section>
-
-    <section class="quick-actions">
-      <h2>פעולות מהירות</h2>
-      <button @click="navigateTo('inventory')">ניהול מלאי</button>
-      <button @click="navigateTo('orders')">הזמנות</button>
-      <button @click="navigateTo('customers')">לקוחות</button>
-    </section>
+    
+    <div class="button-container">
+      <button @click="navigateTo('inventory')" class = "button product-manage">ניהול מלאי</button>
+      <button @click="navigateTo('orders')" class=" button oreders">הזמנות</button>
+      <button @click="navigateTo('more-actions')" class= "button">פעולות נוספות</button>
+    </div>
   </div>
 </template>
 
@@ -40,10 +23,6 @@ export default {
     }
   },
   methods: {
-    logout() {
-      this.$emit("logout");
-      console.log(this.adminData);
-    },
     navigateTo(page) {
       console.log(`מעבר אל ${page}`);
     },
@@ -53,59 +32,38 @@ export default {
 
 <style scoped>
 #admin-page {
-  /* padding: 20px; */
-  text-align: center;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* text-align: center;
   background-color: #023047;
   color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
+  padding: 20px; */
 }
 
-header button {
-  background: #ff4d4d;
+.header {
+ text-align: center;
+  background-color: #023047;
   color: white;
-  border: none;
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 5px;
+  width: 100vw;
+  /* padding: 20px; */
 }
-
-.stats {
+.button-container {
   display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
-}
-
-.stat-box {
-  background: #f1f1f1;
-  padding: 20px;
-  border-radius: 10px;
-  width: 120px;
-  text-align: center;
-}
-
-.quick-actions {
+  flex-direction: column;
+  gap: 10px;
   margin-top: 20px;
 }
 
-.quick-actions h2 {
-  margin-bottom: 10px;
+button {
+  background-color: #ffb703;
+  color: black;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-.quick-actions button {
-  display: block;
-  margin: 5px auto;
-  padding: 10px 20px;
-  background-color: #008cba;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+button:hover {
+  background-color: #fb8500;
 }
 </style>
