@@ -107,6 +107,7 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   font-size: 1.5rem;
+  background-color: white;
 }
 
 .till-logo {

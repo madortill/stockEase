@@ -2,7 +2,9 @@
   <div id="guest-page">
     <header>
       <h1>ברוך הבא! {{ guestData.fullName }}</h1>
-      <button @click="login">כניסה</button>
+      <div class = "guest-data">
+        <p> מספר אישי: {{ guestData.personalNumber }}</p>
+      </div>
     </header>
 
     <section class="search">
@@ -73,7 +75,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f4a261;
+  background-color: #7c7b79;
   color: white;
   padding: 10px 20px;
   border-radius: 10px;
