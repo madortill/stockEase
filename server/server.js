@@ -12,7 +12,7 @@ const adminRoutes = require("./routes/adminRoutes");
 // זה החלק הקריטי! 
 app.use(
   cors({
-    origin: "http://localhost:5173", // לאפשר בקשות מה-Frontend שלך
+    origin: ["http://localhost:5173", "https://madortill.github.io"],// לאפשר בקשות מה-Frontend שלך
     credentials: true, // אם את שולחת בקשות עם עוגיות או Authorization headers
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // כל המתודות שמותרות
     allowedHeaders: ["Content-Type", "Authorization"], // אילו כותרות מותר לשלוח
