@@ -27,12 +27,15 @@
   </script>
   
   <style scoped>
-  #inventory-management {
-    padding: 20px;
-    background-color: #f1f1f1;
-    border-radius: 8px;
-  }
-  
+#inventory-management {
+ height: 92vh;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
   h3 {
     color: #023047;
   }

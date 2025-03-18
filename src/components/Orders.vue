@@ -28,9 +28,12 @@ export default {
 
 <style scoped>
 #orders-page {
-  padding: 20px;
+  height: 92vh;
   background-color: #f1f1f1;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 h3 {
