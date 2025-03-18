@@ -25,8 +25,8 @@ export default {
     return {
       showAbout: false,
       isDisables: false,
-      titleArray: ["מפתחת ראשית", "מומחה תוכן", "רמד טיל"],
-      namesArray: [["רבט אדוה אבא"], ["רסם שלומי אוגרן"], ["רסם עדן בן חמו"]],
+      titleArray: ["מפתחת ראשית", "מומחה תוכן", "רמ\"ד טי\"ל", "שנת פיתוח"],
+      namesArray: [["רב\"ט אדוה אבא"], ["רס\"ם שלומי אוגרן"], ["רס\"ם עדן בן חמו"], ["מרץ 2025"]],
     };
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
 
 .about-div {
   background-color: white;
-  height: 60%;
+  /* height: 60%; */
   width: 60%;
   position: fixed;
   top: 50%;

@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "AdminPage",
   data() {
@@ -37,30 +39,35 @@ export default {
       username: "",
       password: "",
       errorMessage: "",
-      showPopup: false, // האם להציג את ההודעה
-      popupMessage: "", // תוכן ההודעה המוקפצת
+      showPopup: false,
+      popupMessage: "",
     };
   },
   methods: {
-    login() {
+    async login() {
       if (!this.username || !this.password) {
         this.errorMessage = "נא להזין שם משתמש וסיסמה";
         return;
       }
 
-      // סימולציה של אימות (ניתן לשנות להתחברות אמיתית)
-      if (this.username === "admin" && this.password === "1234") {
+      try {
+        const response = await axios.post('http://localhost:5000/api/admin/login', {
+          username: this.username,
+          password: this.password
+        });
+
+        // אם הצליח:
         this.showPopupMessage("התחברת בהצלחה!");
         this.errorMessage = "";
         setTimeout(() => {
           this.$emit("login-success", {
-            fullName: "admin user",
+            fullName: response.data.admin.username,
             userType: "admin",
-          }); 
+          });
         }, 1000);
 
-      } else {
-        this.errorMessage = "שם משתמש או סיסמה שגויים";
+      } catch (error) {
+        this.errorMessage = error.response?.data?.message || "שגיאה בשרת";
       }
     },
     showPopupMessage(message) {
@@ -68,10 +75,11 @@ export default {
       this.showPopup = true;
     },
     closePopup() {
-      this.showPopup = false; 
+      this.showPopup = false;
     },
   },
 };
+
 </script>
 
 <style scoped>

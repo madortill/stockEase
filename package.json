@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "axios": "^1.8.3",
     "vue": "^3.2.45"
   },
   "devDependencies": {
@@ -16,5 +17,18 @@
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
     "vite": "^6.2.0"
-  }
+  },
+  "description": "This template should help get you started developing with Vue 3 in Vite.   This is a boilerplate created by the command \"npm init vue\".",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madortill/stockEase.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madortill/stockEase/issues"
+  },
+  "homepage": "https://github.com/madortill/stockEase#readme"
 }

@@ -22,7 +22,9 @@
         placeholder="מספר אישי"
         @input="validatePersonalNumber"
       />
-      <p v-if="personalNumberError" class="error-message">{{ personalNumberError }}</p>
+      <p v-if="personalNumberError" class="error-message">
+        {{ personalNumberError }}
+      </p>
       <input
         class="phone-number"
         type="tel"
@@ -33,12 +35,6 @@
       />
       <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
       <input class="job-guest" type="text" v-model="role" placeholder="תפקיד" />
-      <input
-        class="date-guest"
-        type="date"
-        v-model="selectedDate"
-        :min="today"
-      />
 
       <select class="rank-guest" v-model="rank">
         <option disabled value="">בחר דרגה</option>
@@ -62,6 +58,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "GuestPage",
   data() {
@@ -77,9 +75,9 @@ export default {
       rank: "",
       ranks: ["טוראי", 'רב"ט', "סמל", 'סמ"ר', 'רס"ל'],
       today: this.getTodayDate(),
-      showPopup: false, 
-      popupMessage: "", 
-      personalNumberError: "", 
+      showPopup: false,
+      popupMessage: "",
+      personalNumberError: "",
     };
   },
   methods: {
@@ -92,7 +90,7 @@ export default {
     },
 
     validatePhoneNumber() {
-      const phonePattern = /^[0-9]{10}$/; // שינוי לדרישה של בדיוק 10 ספרות
+      const phonePattern = /^[0-9]{10}$/;
       if (this.phoneNumber && !phonePattern.test(this.phoneNumber)) {
         this.phoneError = "נא להזין מספר טלפון תקין (10 ספרות)";
       } else {
@@ -100,50 +98,74 @@ export default {
       }
     },
 
-    submitForm() {
+    validatePersonalNumber() {
+      const personalNumberPattern = /^[0-9]{7}$/;
+      this.personalNumberError =
+        this.personalNumber && !personalNumberPattern.test(this.personalNumber)
+          ? "נא להזין מספר אישי תקין (7 ספרות)"
+          : "";
+    },
+
+    async submitForm() {
+      console.log("submitForm הופעלה");
+
       if (
         !this.firstName ||
         !this.lastName ||
         !this.personalNumber ||
         !this.phoneNumber ||
         !this.role ||
-        !this.selectedDate ||
         !this.rank
       ) {
         this.formError = "נא למלא את כל השדות!";
         return;
       }
 
-      if (this.phoneError) {
-        this.formError = "נא להזין מספר טלפון תקין!";
+      if (this.phoneError || this.personalNumberError) {
+        this.formError = "נא לתקן את השגיאות בטופס!";
         return;
       }
 
       this.formError = "";
+
+      // שליחת הנתונים לשרת
+      try {
+        await axios.post("http://localhost:5000/api/guest/add", {
+          firstName: this.firstName.trim(),
+          lastName: this.lastName.trim(),
+          personalNumber: this.personalNumber.trim(),
+          phoneNumber: this.phoneNumber.trim(),
+          role: this.role.trim(),
+          rank: this.rank.trim(),
+        });
+        console.log("✅ האורח נוסף למסד הנתונים בהצלחה!");
+      } catch (error) {
+        console.error("❌ שגיאה בשליחת הנתונים לשרת:", error);
+      }
+
+      // הודעת הצלחה
       this.showPopupMessage(`ברוך הבא, ${this.firstName} ${this.lastName}!`);
 
+      // emitting event להורה
       this.$emit("login-success", {
         fullName: `${this.firstName} ${this.lastName}`,
         personalNumber: this.personalNumber,
         phoneNumber: this.phoneNumber,
         role: this.role,
-        selectedDate: this.selectedDate,
         rank: this.rank,
         userType: "guest",
       });
     },
-    validatePersonalNumber() {
-      const personalNumberPattern = /^[0-9]{7}$/;
-      this.personalNumberError = this.personalNumber && !personalNumberPattern.test(this.personalNumber)
-        ? "נא להזין מספר אישי תקין (7 ספרות)"
-        : "";
-    },
+
     showPopupMessage(message) {
+      console.log("הצגת הודעה:", message);
       this.popupMessage = message;
       this.showPopup = true;
-      // setTimeout(() => {
+
+      setTimeout(() => {
         this.showPopup = false;
-      // }, 2500);
+        console.log("ההודעה נסגרה");
+      }, 2500);
     },
   },
 };
@@ -185,7 +207,7 @@ export default {
 .submit-button {
   width: 100%;
   padding: 10px;
-  margin-top: px;
+  margin-top: 10px;
   font-size: 1rem;
   background-color: #023047;
   color: white;
@@ -203,7 +225,6 @@ export default {
   color: red;
   font-size: 0.9rem;
   margin-top: 5px;
-
 }
 
 /* עיצוב ההודעה המוקפצת */
@@ -219,7 +240,7 @@ export default {
   font-size: 1.2rem;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  animation: fadeInOut 3s ease-in-out;
+  animation: fadeInOut 2.5s ease-in-out;
 }
 
 /* אנימציה להופעה והיעלמות של ההודעה */
