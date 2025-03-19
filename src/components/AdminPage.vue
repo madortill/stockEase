@@ -1,7 +1,7 @@
 <template>
   <div id="admin-page">
     <header class="header">
-      <h2>ברוך הבא, {{ adminData.fullName }}!</h2>
+      <h2 class = "welcome-admin">ברוך הבא, {{ adminData.fullName }}!</h2>
     </header>
 
     <div v-if = "activePage === null" class="button-container">
@@ -10,7 +10,6 @@
       <button class="button-admin" @click="navigateTo('permissions')">הרשאות</button>
     </div>
 
-    <!-- <button v-if ="activePage != null" class="close-button" @click="toggleAbout">X</button> -->
     <!-- ניווט לדפים -->
     <div v-if="activePage === 'product-manage'">
       <InventoryManagement /> <!-- דף ניהול מלאי -->
@@ -23,7 +22,7 @@
     </div>
     <img  v-if ="activePage != null"
       src="@/assets/media/icons/home.svg"
-      alt="התנתק"
+      alt="בית"
       class="back-home-button"
       @click = "toggleAbout"
     />
@@ -56,7 +55,6 @@ export default {
   },
   methods: {
     navigateTo(page) {
-      console.log(`מעבר אל ${page}`);
       this.activePage = page; // שינוי של activePage כדי לעבור לדף המתאים
     },
     toggleAbout() {
@@ -69,9 +67,8 @@ export default {
 <style scoped>
 #admin-page {
   text-align: center;
-  /* background-color: #023047; */
   color: white;
-  min-height: 100vh;
+  height: 100vh;
   color: #023047;
 }
 
@@ -128,5 +125,9 @@ export default {
   left: 1rem;
   bottom: 1rem;
   cursor: pointer;
+}
+
+.welcome-admin {
+  margin-right: 5%;
 }
 </style>
