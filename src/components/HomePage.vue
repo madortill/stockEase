@@ -91,7 +91,7 @@ export default {
   /* border-radius: 12px; */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   text-align: center;
-  width: 300px;
+  width: 100vw;
 }
 
 .logout-confirm-box p {

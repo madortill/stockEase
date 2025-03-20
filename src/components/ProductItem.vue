@@ -45,7 +45,7 @@ export default {
   align-items: center;
   width: 60%;
   margin: 5px auto;
-  padding: 10px;
+  padding: 1.5rem;
   background-color: #ffff;
   border-radius: 10px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);

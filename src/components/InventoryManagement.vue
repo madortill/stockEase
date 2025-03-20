@@ -6,7 +6,7 @@
         src="@/assets/media/icons/square-plus.png"
         alt="הוספת מוצר"
         class="add-product-button"
-        @click="toggleAbout"
+        @click="openAddProductModal"
       />
       <input
         type="text"
@@ -15,23 +15,41 @@
         class="search-input"
       />
     </div>
-    <ProductItem  v-for="(product, index) in filteredProducts"
-      :key="index"
-      :product="{ name: product }"></ProductItem>
+    <div class="productList">
+      <ProductItem
+        v-for="(product, index) in filteredProducts"
+        :key="index"
+        :product="{ name: product }"
+      ></ProductItem>
+      <p v-if="filteredProducts.length === 0" class="no-products-message">
+        פריט זה אינו נמצא
+      </p>
+    </div>
+    <div v-if="showAddProductModal" class="modal-overlay">
+      <div class="modal-content">
+        <AddProduct
+          @close="showAddProductModal = false"
+          @productAdded="addNewProduct"
+        ></AddProduct>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import ProductItem from "@/components/ProductItem.vue";
+import AddProduct from "@/components/AddProduct.vue";
 
 export default {
   name: "InventoryManagement",
   components: {
     ProductItem,
+    AddProduct,
   },
   data() {
     return {
       searchQuery: "",
+      showAddProductModal: false,
       warehouseProductNames: [
         "עט כדורי",
         "עיפרון HB",
@@ -42,31 +60,37 @@ export default {
         "קלסר גדול",
         "שדכן",
         "חבילה של סיכות שדכן",
-        "נייר הדפסה A4",
-        "דבק סלוטייפ",
-        "לוח מחיק",
-        "טושים ללוח מחיק",
-        "מחדד שולחני",
-        "פנקס קטן",
-        "נייר דבק דו צדדי",
-        "מדבקות סימון צבעוניות",
-        "מחק איכותי",
-        "קליפסים לניירות",
-        "מעמד לעטים",
+        // "נייר הדפסה A4",
+        // "דבק סלוטייפ",
+        // "לוח מחיק",
+        // "טושים ללוח מחיק",
+        // "מחדד שולחני",
+        // "פנקס קטן",
+        // "נייר דבק דו צדדי",
+        // "מדבקות סימון צבעוניות",
+        // "מחק איכותי",
+        // "קליפסים לניירות",
+        // "מעמד לעטים",
       ],
     };
   },
   computed: {
     filteredProducts() {
       return this.warehouseProductNames.filter((product) =>
-        product.includes(this.searchQuery)
+        (typeof product === "string" ? product : product.name).includes(
+          this.searchQuery
+        )
       );
     },
   },
   methods: {
-    toggleAbout() {
-      // כאן תוכלי להוסיף פונקציה לפתיחת מודל הוספת מוצר בעתיד
-      console.log("Add or Edit clicked");
+    openAddProductModal() {
+      this.showAddProductModal = true;
+      console.log(this.showAddProductModal);
+    },
+    addNewProduct(newProduct) {
+      this.warehouseProductNames.push(newProduct);
+      this.showAddProductModal = false; // סוגרים את המודל אחרי הוספת מוצר
     },
   },
 };
@@ -129,5 +153,41 @@ export default {
   .search-input {
     width: 80%;
   }
+}
+.productList {
+  max-height: 400px; /* אפשר לשנות את הגובה בהתאם לצורך שלך */
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 10px; /* בשביל לא להסתיר את הגלילה */
+}
+
+.no-products-message {
+  text-align: center;
+  color: #555;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 </style>
