@@ -1,13 +1,10 @@
 <template>
-  <div id="inventory-management">
-    <h3 class="title-manage">ניהול מלאי</h3>
+  <div id="inventory-display">
+    <h3 class="title">רשימת פריטים במחסן</h3>
     <div class="search-container">
-      <img
-        src="@/assets/media/icons/square-plus.png"
-        alt="הוספת מוצר"
-        class="add-product-button"
-        @click="openAddProductModal"
-      />
+      <button class="add-product-button" @click="openAddProductModal">
+        הוסף מוצר
+      </button>
       <input
         type="text"
         v-model="searchQuery"
@@ -15,114 +12,230 @@
         class="search-input"
       />
     </div>
-    <div class="productList">
-      <ProductItem
-        v-for="(product, index) in filteredProducts"
-        :key="index"
-        :product="{ name: product }"
-      ></ProductItem>
-      <p v-if="filteredProducts.length === 0" class="no-products-message">
-        פריט זה אינו נמצא
-      </p>
+    <div v-if="loading" class="loading">טוען נתונים...</div>
+    <div v-else>
+      <div v-if="filteredProducts.length > 0" class="product-list">
+        <div
+          v-for="product in filteredProducts"
+          :key="product._id"
+          class="product-item"
+        >
+          <template v-if="product.isEditing">
+            <input
+              v-model="product.editName"
+              placeholder="שם מוצר"
+              class="edit-input"
+            />
+            <input
+              type="number"
+              v-model="product.editQuantity"
+              placeholder="כמות"
+              class="edit-input"
+            />
+            <button @click="saveEdit(product)">שמור</button>
+            <button @click="cancelEdit(product)">בטל</button>
+          </template>
+          <template v-else>
+            <span class="product-name">{{ product.name }}</span>
+            <span class="product-quantity">כמות: {{ product.quantity }}</span>
+            <div>
+              <button @click="editProduct(product)">ערוך</button>
+              <button @click="deleteProduct(product._id)">מחק</button>
+            </div>
+          </template>
+        </div>
+      </div>
+      <p v-else class="no-products">לא נמצאו פריטים במאגר.</p>
     </div>
+
     <div v-if="showAddProductModal" class="modal-overlay">
       <div class="modal-content">
         <AddProduct
           @close="showAddProductModal = false"
           @productAdded="addNewProduct"
-        ></AddProduct>
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ProductItem from "@/components/ProductItem.vue";
 import AddProduct from "@/components/AddProduct.vue";
 
 export default {
-  name: "InventoryManagement",
-  components: {
-    ProductItem,
-    AddProduct,
-  },
+  name: "InventoryDisplay",
+  components: { AddProduct },
   data() {
     return {
+      products: [],
+      loading: true,
       searchQuery: "",
       showAddProductModal: false,
-      warehouseProductNames: [
-        "עט כדורי",
-        "עיפרון HB",
-        "מחברת שורות",
-        "דבק סטיק",
-        "טוש הדגשה צהוב",
-        'סרגל 30 ס"מ',
-        "קלסר גדול",
-        "שדכן",
-        "חבילה של סיכות שדכן",
-        // "נייר הדפסה A4",
-        // "דבק סלוטייפ",
-        // "לוח מחיק",
-        // "טושים ללוח מחיק",
-        // "מחדד שולחני",
-        // "פנקס קטן",
-        // "נייר דבק דו צדדי",
-        // "מדבקות סימון צבעוניות",
-        // "מחק איכותי",
-        // "קליפסים לניירות",
-        // "מעמד לעטים",
-      ],
     };
   },
   computed: {
     filteredProducts() {
-      return this.warehouseProductNames.filter((product) =>
-        (typeof product === "string" ? product : product.name).includes(
-          this.searchQuery
-        )
+      return this.products.filter((product) =>
+        product.name.includes(this.searchQuery)
       );
     },
+  },
+  mounted() {
+    this.fetchProducts();
   },
   methods: {
     openAddProductModal() {
       this.showAddProductModal = true;
-      console.log(this.showAddProductModal);
     },
     addNewProduct(newProduct) {
-      this.warehouseProductNames.push(newProduct);
-      this.showAddProductModal = false; // סוגרים את המודל אחרי הוספת מוצר
+      this.products.push(newProduct);
+      this.showAddProductModal = false;
+    },
+    async fetchProducts() {
+      try {
+        const response = await fetch("http://localhost:5000/api/inventoryproducts");
+        const data = await response.json();
+        // נוסיף פרמטרים של עריכה לכל פריט
+        this.products = data.map((p) => ({
+          ...p,
+          isEditing: false,
+          editName: p.name,
+          editQuantity: p.quantity,
+        }));
+      } catch (error) {
+        console.error("שגיאה בטעינת המוצרים:", error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    editProduct(product) {
+      product.isEditing = true;
+    },
+    cancelEdit(product) {
+      product.isEditing = false;
+      product.editName = product.name;
+      product.editQuantity = product.quantity;
+    },
+    async saveEdit(product) {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/inventoryproducts/${product._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: product.editName,
+              quantity: product.editQuantity,
+            }),
+          }
+        );
+        if (response.ok) {
+          product.name = product.editName;
+          product.quantity = product.editQuantity;
+          product.isEditing = false;
+        } else {
+          console.error("שגיאה בעדכון המוצר");
+        }
+      } catch (error) {
+        console.error("שגיאה בשמירת העריכה:", error);
+      }
+    },
+    async deleteProduct(productId) {
+      if (confirm("האם את בטוחה שאת רוצה למחוק את המוצר?")) {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/inventoryproducts/${productId}`,
+            {
+              method: "DELETE",
+            }
+          );
+          if (response.ok) {
+            this.products = this.products.filter(
+              (product) => product._id !== productId
+            );
+          } else {
+            console.error("שגיאה במחיקת המוצר");
+          }
+        } catch (error) {
+          console.error("שגיאה במחיקה:", error);
+        }
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-#inventory-management {
+#inventory-display {
   min-height: 92vh;
-  /* background-color: #f9fafb; */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 20px;
-  font-family: "Heebo", Arial, sans-serif;
 }
 
-.title-manage {
+.title {
   color: #023047;
   font-size: 2.5rem;
   margin-bottom: 30px;
-  text-align: center;
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: #555;
+}
+.product-list {
+  width: 100%;
+  max-width: 600px;
+  height: 400px; /* גובה קבוע */
+  overflow-y: auto; /* גלילה פנימית */
+  display: block; /* לא flex — זה גורם קפיצות */
+  padding: 10px;
+  border-radius: 10px;
+}
+
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 10px; /* מוסיף רווח בין פריטים */
+}
+
+.product-item:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+
+
+.product-name {
+  font-weight: bold;
+}
+
+.product-quantity {
+  color: #555;
+}
+
+.no-products {
+  color: #777;
+  margin-top: 20px;
 }
 
 .search-container {
   display: flex;
-  flex-direction: row-reverse; /* פלוס מימין */
+  flex-direction: row-reverse;
   align-items: center;
   gap: 10px;
-  width: 60%;
-  max-width: 400px;
+  width: 80%;
+  max-width: 500px;
   margin-bottom: 40px;
 }
+
 .search-input {
   flex: 1;
   padding: 10px 14px;
@@ -140,35 +253,18 @@ export default {
 }
 
 .add-product-button {
-  width: 2.5rem;
+  padding: 0px 20px;
+  font-size: 1rem;
+  background-color: #023047;
+  color: white;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
-@media (max-width: 600px) {
-  .search-container {
-    width: 80%;
-  }
-}
-@media (max-width: 600px) {
-  .search-input {
-    width: 80%;
-  }
-}
-.productList {
-  max-height: 400px; /* אפשר לשנות את הגובה בהתאם לצורך שלך */
-  overflow-y: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-right: 10px; /* בשביל לא להסתיר את הגלילה */
-}
-
-.no-products-message {
-  text-align: center;
-  color: #555;
-  font-size: 1.2rem;
-  margin-top: 20px;
+.add-product-button:hover {
+  background-color: #03546e;
 }
 
 .modal-overlay {
@@ -184,10 +280,17 @@ export default {
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: white;
   padding: 20px;
+  /* border-radius: 12px; */
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.edit-input {
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 </style>

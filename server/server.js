@@ -12,10 +12,10 @@ const adminRoutes = require("./routes/adminRoutes");
 // זה החלק הקריטי! 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://madortill.github.io"],// לאפשר בקשות מה-Frontend שלך
-    credentials: true, // אם את שולחת בקשות עם עוגיות או Authorization headers
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // כל המתודות שמותרות
-    allowedHeaders: ["Content-Type", "Authorization"], // אילו כותרות מותר לשלוח
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://madortill.github.io"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -27,6 +27,9 @@ app.use("/api/admin", adminRoutes);
 
 const guestRoutes = require('./routes/guestRoutes');
 app.use('/api/guest', guestRoutes);
+
+const productsRoute = require('./routes/productsRoute');
+app.use('/api/inventoryproducts', productsRoute);
 
 mongoose
   .connect(mongoURI)

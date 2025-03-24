@@ -1,112 +1,122 @@
 <template>
-    <div class="add-product-container">
-      <h2>הוספת מוצר חדש</h2>
-      <form @submit.prevent="submitProduct">
-        <div class="form-group">
-          <label for="productName">שם המוצר:</label>
-          <input
-            id="productName"
-            v-model="productName"
-            type="text"
-            placeholder="הכניסי את שם המוצר"
-            required
-          />
-        </div>
-        <button type="submit">הוסיפי מוצר</button>
-        <button type="button" class="cancel-button" @click="$emit('close')">
-          ביטול
-        </button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: "AddProduct",
-    data() {
-      return {
-        productName: "",
-      };
+  <div class="add-product-form">
+    <h3>הוספת מוצר חדש</h3>
+    <p v-if="showError" class="error-message">אנא מלאי את כל השדות</p>
+    <input v-model="name" placeholder="שם מוצר" />
+    <input v-model.number="quantity" type="number" placeholder="כמות" />
+    <input v-model.number="price" type="number" placeholder="מחיר ליחידה" />
+    <input v-model="category" placeholder="קטגוריה" />
+    <input v-model="subCategory" placeholder="קטגוריה משנה" />
+    <button class="add-button" @click="submitProduct">הוסף</button>
+    <button class="cancel-button" @click="$emit('close')">X</button>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "AddProduct",
+  data() {
+    return {
+      name: "",
+      quantity: null,
+      price: null,
+      category: "",
+      subCategory: "",
+      showError: false,
+    };
+  },
+  methods: {
+    async submitProduct() {
+      if (!this.name || !this.quantity || !this.price || !this.category) {
+        this.showError = true;
+        return;
+      }
+
+      this.showError = false;
+
+      try {
+        console.log("נשלח לשרת:", {
+          name: this.name,
+          quantity: this.quantity,
+          price: this.price,
+          category: this.category,
+          subCategory: this.subCategory,
+        });
+
+        const response = await axios.post(
+          "http://localhost:5000/api/products",
+          {
+            name: this.name,
+            quantity: this.quantity,
+            price: this.price,
+            category: this.category,
+            subCategory: this.subCategory,
+          }
+        );
+
+        this.$emit("productAdded", response.data);
+
+        // איפוס שדות
+        this.name = "";
+        this.quantity = null;
+        this.price = null;
+        this.category = "";
+        this.subCategory = "";
+      } catch (error) {
+        console.error("שגיאה בהוספת מוצר:", error);
+        alert("אירעה שגיאה בהוספת המוצר. נסי שוב.");
+      }
     },
-    methods: {
-      submitProduct() {
-        if (this.productName.trim() === "") return;
-        // משדרת את שם המוצר חזרה ל-parent
-        this.$emit("productAdded", this.productName);
-        this.productName = "";
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
 
 <style scoped>
-.add-product-container {
+.add-product-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 50px 20px;
-  font-family: "Heebo", Arial, sans-serif;
-}
-
-h2 {
-  color: #023047;
-  font-size: 2.2rem;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-form {
+  gap: 15px;
   width: 100%;
   max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  margin: 0 auto;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-input {
-  padding: 10px 14px;
+.add-product-form input {
+  padding: 10px;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.add-button {
+  padding: 10px;
+  border: none;
   border-radius: 10px;
   font-size: 1rem;
-  transition: all 0.2s ease-in-out;
-}
-
-input:focus {
-  border-color: #023047;
-  outline: none;
-  box-shadow: 0 0 8px rgba(2, 48, 71, 0.2);
-}
-
-button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
   cursor: pointer;
   background-color: #023047;
   color: white;
   transition: background-color 0.2s;
 }
 
-button:hover {
+.add-button:hover {
   background-color: #03567a;
 }
 
 .cancel-button {
-  background-color: #e63946;
+  position: absolute;
+  border: none;
+  cursor: pointer;
+  font-size: 1.8rem;
+  background-color: white;
+  padding: 0;
 }
 
-.cancel-button:hover {
-  background-color: #c9182b;
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin: -10px 0 10px 0;
 }
 </style>
