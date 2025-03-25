@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
 // הוספת מוצר חדש
 router.post('/', async (req, res) => {
   try {
-    console.log("נתונים שהתקבלו מה-Frontend:", req.body);
     const { name, quantity, price, category, subCategory } = req.body;
     const newProduct = new Product({
       name,
@@ -27,7 +26,6 @@ router.post('/', async (req, res) => {
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: 'שגיאה בהוספת מוצר' });
   }
 });
@@ -45,7 +43,6 @@ router.put('/:id', async (req, res) => {
     if (!updatedProduct) return res.status(404).json({ error: 'מוצר לא נמצא' });
     res.json(updatedProduct);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: 'שגיאה בעדכון המוצר' });
   }
 });
@@ -62,5 +59,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'שגיאה במחיקת המוצר' });
   }
 });
+
 
 module.exports = router;

@@ -6,6 +6,6 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   category: { type: String, required: true },
   subCategory: { type: String },
-});
+}, { collection: 'inventoryproducts' }); // מגדירים במפורש את שם הקולקשן
 
 module.exports = mongoose.model("InventoryProduct", productSchema);

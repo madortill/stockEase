@@ -7,7 +7,7 @@
     <div v-if = "activePage === null" class="button-container">
       <button class="button-admin product-manage" @click="navigateTo('product-manage')">ניהול מלאי</button>
       <button class="button-admin oreders" @click="navigateTo('oreders')">הזמנות</button>
-      <button class="button-admin" @click="navigateTo('permissions')">הרשאות</button>
+      <button class="button-admin none" @click="navigateTo('permissions')">הרשאות</button>
     </div>
 
     <!-- ניווט לדפים -->
@@ -129,5 +129,12 @@ export default {
 
 .welcome-admin {
   margin-right: 5%;
+}
+
+.none {
+  background-color: rgb(177, 177, 177);
+  pointer-events: none;
+  opacity: 0.6; /* כדי שיראה דיזייבל */
+  cursor: not-allowed;
 }
 </style>

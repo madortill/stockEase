@@ -12,6 +12,7 @@
         class="search-input"
       />
     </div>
+
     <div v-if="loading" class="loading">טוען נתונים...</div>
     <div v-else>
       <div v-if="filteredProducts.length > 0" class="product-list">
@@ -40,7 +41,7 @@
             <span class="product-quantity">כמות: {{ product.quantity }}</span>
             <div>
               <button @click="editProduct(product)">ערוך</button>
-              <button @click="deleteProduct(product._id)">מחק</button>
+              <button @click="confirmDelete(product)">מחק</button>
             </div>
           </template>
         </div>
@@ -54,6 +55,16 @@
           @close="showAddProductModal = false"
           @productAdded="addNewProduct"
         />
+      </div>
+    </div>
+
+    <div v-if="showConfirmDeleteModal" class="modal-overlay">
+      <div class="modal-content">
+        <p>האם את בטוחה שאת רוצה למחוק את המוצר "{{ productToDelete.name }}"?</p>
+        <div class="modal-buttons">
+          <button @click="deleteConfirmed" class="add-product-button">מחק</button>
+          <button @click="cancelDelete" class="add-product-button cancel">ביטול</button>
+        </div>
       </div>
     </div>
   </div>
@@ -71,6 +82,8 @@ export default {
       loading: true,
       searchQuery: "",
       showAddProductModal: false,
+      showConfirmDeleteModal: false,
+      productToDelete: null,
     };
   },
   computed: {
@@ -93,9 +106,8 @@ export default {
     },
     async fetchProducts() {
       try {
-        const response = await fetch("http://localhost:5000/api/inventoryproducts");
+        const response = await fetch("http://localhost:5000/api/products");
         const data = await response.json();
-        // נוסיף פרמטרים של עריכה לכל פריט
         this.products = data.map((p) => ({
           ...p,
           isEditing: false,
@@ -119,12 +131,10 @@ export default {
     async saveEdit(product) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/inventoryproducts/${product._id}`,
+          `http://localhost:5000/api/products/${product._id}`,
           {
             method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               name: product.editName,
               quantity: product.editQuantity,
@@ -142,26 +152,33 @@ export default {
         console.error("שגיאה בשמירת העריכה:", error);
       }
     },
-    async deleteProduct(productId) {
-      if (confirm("האם את בטוחה שאת רוצה למחוק את המוצר?")) {
-        try {
-          const response = await fetch(
-            `http://localhost:5000/api/inventoryproducts/${productId}`,
-            {
-              method: "DELETE",
-            }
+    confirmDelete(product) {
+      this.productToDelete = product;
+      this.showConfirmDeleteModal = true;
+    },
+    async deleteConfirmed() {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/products/${this.productToDelete._id}`,
+          { method: "DELETE" }
+        );
+        if (response.ok) {
+          this.products = this.products.filter(
+            (product) => product._id !== this.productToDelete._id
           );
-          if (response.ok) {
-            this.products = this.products.filter(
-              (product) => product._id !== productId
-            );
-          } else {
-            console.error("שגיאה במחיקת המוצר");
-          }
-        } catch (error) {
-          console.error("שגיאה במחיקה:", error);
+        } else {
+          console.error("שגיאה במחיקת המוצר");
         }
+      } catch (error) {
+        console.error("שגיאה במחיקה:", error);
+      } finally {
+        this.showConfirmDeleteModal = false;
+        this.productToDelete = null;
       }
+    },
+    cancelDelete() {
+      this.showConfirmDeleteModal = false;
+      this.productToDelete = null;
     },
   },
 };
@@ -189,18 +206,17 @@ export default {
 .product-list {
   width: 100%;
   max-width: 600px;
-  height: 400px; /* גובה קבוע */
+  height: 300px; /* גובה קבוע */
   overflow-y: auto; /* גלילה פנימית */
   display: block; /* לא flex — זה גורם קפיצות */
   padding: 10px;
   border-radius: 10px;
 }
 
-
 .product-item {
   display: flex;
   justify-content: space-between;
-  padding: 10px 14px;
+  padding: 12px 52px;
   border-bottom: 1px solid #e0e0e0;
   background-color: #f9f9f9;
   border-radius: 6px;
@@ -210,8 +226,6 @@ export default {
 .product-item:not(:last-child) {
   margin-bottom: 10px;
 }
-
-
 
 .product-name {
   font-weight: bold;
@@ -292,5 +306,16 @@ export default {
   padding: 5px 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
+}
+
+.modal-button{
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  background-color: #023047;
+  color: white;
 }
 </style>

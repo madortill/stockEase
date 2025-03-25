@@ -5,32 +5,35 @@ require("dotenv").config();
 
 const app = express();
 const port = 5000;
-
 const mongoURI = process.env.MONGO_URI;
-const adminRoutes = require("./routes/adminRoutes");
 
-// זה החלק הקריטי! 
+const adminRoutes = require("./routes/adminRoutes");
+const guestRoutes = require("./routes/guestRoutes");
+const productsRoutes = require('./routes/productsRoute');
+
+// הגדרות CORS
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://madortill.github.io"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://madortill.github.io",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// תוסיפי גם את זה — זה עוזר לטפל בבקשות Preflight (OPTIONS)
 app.options("*", cors());
 
 app.use(express.json());
+
+// ראוטים
 app.use("/api/admin", adminRoutes);
+app.use("/api/guest", guestRoutes);
+app.use('/api/products', productsRoutes);
 
-const guestRoutes = require('./routes/guestRoutes');
-app.use('/api/guest', guestRoutes);
-
-const productsRoute = require('./routes/productsRoute');
-app.use('/api/inventoryproducts', productsRoute);
-
+// חיבור למסד הנתונים
 mongoose
   .connect(mongoURI)
   .then(() => console.log("✅ Connected to MongoDB"))

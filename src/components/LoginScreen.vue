@@ -15,13 +15,13 @@
       v-if="currentView === 'guest'"
       @go-back="setView('login')"
       @login-success="handleLoginSuccess"
-    ></GuestIn>
+    />
     <div v-if="currentView !== 'login'">
       <img
         src="@/assets/media/icons/undo.svg"
         alt="חזור"
         class="back-button"
-        @click= "backToLogin"
+        @click="backToLogin"
       />
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       currentView: "login",
-      currentPage: 'loginScreen',
+      currentPage: "loginScreen",
     };
   },
   methods: {
@@ -48,8 +48,9 @@ export default {
       this.currentView = view;
     },
 
-    handleLoginSuccess(data) {
-      this.$emit("user-logged-in", data);
+    handleLoginSuccess(userData) {
+      // שולחת להורה (ל-App.vue) את כל המידע
+      this.$emit("user-logged-in", userData);
     },
 
     backToLogin() {
