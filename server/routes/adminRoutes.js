@@ -28,7 +28,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// ראוט לבדוק את כל המשתמשים במסד הנתונים (לבדיקה בלבד - למחוק אחר כך!)
 router.get('/all', async (req, res) => {
   try {
     const admins = await Admin.find();

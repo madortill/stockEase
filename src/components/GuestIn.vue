@@ -87,9 +87,15 @@ export default {
           }
         );
 
-        if (response.data.success) {
-          this.showPopupMessage(`ברוך הבא, ${this.fullName}!`);
-          this.$emit("login-success", response.data.user);
+        if (response.data.success && response.data.user) {
+          const fullName = `${response.data.user.firstName} ${response.data.user.lastName}`;
+          console.log("התקבל משתמש:", response.data.user);
+          this.showPopupMessage(`ברוך הבא, ${fullName}!`);
+          this.$emit("login-success", {
+            fullName,
+            personalNumber: response.data.user.personalNumber,
+            userType: "guest",
+          });
         } else {
           this.loginError = response.data.message || "משתמש לא נמצא";
         }
@@ -103,12 +109,31 @@ export default {
       this.showPopup = true;
       setTimeout(() => {
         this.showPopup = false;
-      }, 2500);
+      }, 5000);
     },
 
     handleNewGuestSuccess(userData) {
-      // כאן את מעבירה להורה שלך (LoginScreen) את המשתמש החדש שנרשם
-      this.$emit("login-success", userData);
+      let fullName;
+      let personalNumber;
+
+      if (userData.fullName) {
+   
+        console.log("הקריאה הגיעה מ-NewGuest");
+        fullName = userData.fullName;
+        personalNumber = userData.personalNumber;
+      } else if (userData.firstName && userData.lastName) {
+        console.log("הקריאה הגיעה ממקור אחר (כמו GuestIn)");
+        fullName = `${userData.firstName} ${userData.lastName}`;
+        personalNumber = userData.personalNumber;
+      } else {
+        console.error("לא הצלחתי לזהות את מקור הנתונים", userData);
+        return;
+      }
+      this.$emit("login-success", {
+        fullName,
+        personalNumber,
+        userType: "guest",
+      });
     },
   },
 };

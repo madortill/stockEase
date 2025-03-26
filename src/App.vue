@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     setUserPage(data) {
+      console.log(data);
       this.userData = data;
       this.userType = data.userType;
       this.showLogin = false;

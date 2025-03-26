@@ -49,7 +49,7 @@ export default {
     },
 
     handleLoginSuccess(userData) {
-      // שולחת להורה (ל-App.vue) את כל המידע
+      console.log("userData ב-LoginScreen:", userData);
       this.$emit("user-logged-in", userData);
     },
 

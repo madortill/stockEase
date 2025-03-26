@@ -17,10 +17,7 @@
     </div>
 
     <AdminPage v-if="userType === 'admin'" :admin-data="userData"></AdminPage>
-    <GuestPage
-      v-else-if="userType === 'guest'"
-      :guest-data="userData"
-    ></GuestPage>
+    <GuestPage v-else-if="userType === 'guest'" :guest-data="userData" />
   </div>
 </template>
 
@@ -53,6 +50,10 @@ export default {
       this.showLogoutConfirm = false;
       this.logout();
     },
+  },
+  mounted() {
+    console.log("userType:", this.userType);
+    console.log("userData:", this.userData);
   },
 };
 </script>
@@ -102,7 +103,6 @@ export default {
 .logout-confirm-box .buttons {
   display: flex;
   justify-content: space-evenly;
-
 }
 
 .logout-confirm-box button {
@@ -118,5 +118,4 @@ export default {
 .logout-confirm-box button:hover {
   background-color: #fb8500;
 }
-
 </style>
