@@ -22,27 +22,22 @@
           class="product-item"
         >
           <template v-if="product.isEditing">
-            <input
-              v-model="product.editName"
-              placeholder="שם מוצר"
-              class="edit-input"
+            <EditProduct
+              :product="product"
+              @save="saveEditFromChild"
+              @cancel="cancelEdit"
+              @delete="handleDeleteRequest"
             />
-            <input
-              type="number"
-              v-model="product.editQuantity"
-              placeholder="כמות"
-              class="edit-input"
-            />
-            <button @click="saveEdit(product)">שמור</button>
-            <button @click="cancelEdit(product)">בטל</button>
           </template>
           <template v-else>
             <span class="product-name">{{ product.name }}</span>
             <span class="product-quantity">כמות: {{ product.quantity }}</span>
-            <div>
-              <button @click="editProduct(product)">ערוך</button>
-              <button @click="confirmDelete(product)">מחק</button>
-            </div>
+            <img
+              src="@/assets/media/icons/edit.svg"
+              alt="עריכה"
+              class="edit-button"
+              @click="editProduct(product)"
+            />
           </template>
         </div>
       </div>
@@ -60,10 +55,16 @@
 
     <div v-if="showConfirmDeleteModal" class="modal-overlay">
       <div class="modal-content">
-        <p>האם את בטוחה שאת רוצה למחוק את המוצר "{{ productToDelete.name }}"?</p>
+        <p>
+          האם את בטוחה שאת רוצה למחוק את המוצר "{{ productToDelete.name }}"?
+        </p>
         <div class="modal-buttons">
-          <button @click="deleteConfirmed" class="add-product-button">מחק</button>
-          <button @click="cancelDelete" class="add-product-button cancel">ביטול</button>
+          <button @click="deleteConfirmed" class="add-product-button">
+            מחק
+          </button>
+          <button @click="cancelDelete" class="add-product-button cancel">
+            ביטול
+          </button>
         </div>
       </div>
     </div>
@@ -72,10 +73,11 @@
 
 <script>
 import AddProduct from "@/components/AddProduct.vue";
+import EditProduct from "@/components/EditProduct.vue";
 
 export default {
   name: "InventoryDisplay",
-  components: { AddProduct },
+  components: { AddProduct, EditProduct },
   data() {
     return {
       products: [],
@@ -111,8 +113,6 @@ export default {
         this.products = data.map((p) => ({
           ...p,
           isEditing: false,
-          editName: p.name,
-          editQuantity: p.quantity,
         }));
       } catch (error) {
         console.error("שגיאה בטעינת המוצרים:", error);
@@ -125,25 +125,32 @@ export default {
     },
     cancelEdit(product) {
       product.isEditing = false;
-      product.editName = product.name;
-      product.editQuantity = product.quantity;
     },
-    async saveEdit(product) {
+    async saveEditFromChild(updatedProduct) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products/${product._id}`,
+          `http://localhost:5000/api/products/${updatedProduct._id}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              name: product.editName,
-              quantity: product.editQuantity,
+              name: updatedProduct.editName,
+              quantity: updatedProduct.editQuantity,
+              price: updatedProduct.editPrice,
+              category: updatedProduct.editCategory,
+              subCategory: updatedProduct.editSubCategory,
             }),
           }
         );
         if (response.ok) {
-          product.name = product.editName;
-          product.quantity = product.editQuantity;
+          const product = this.products.find(
+            (p) => p._id === updatedProduct._id
+          );
+          product.name = updatedProduct.editName;
+          product.quantity = updatedProduct.editQuantity;
+          product.price = updatedProduct.editPrice;
+          product.category = updatedProduct.editCategory;
+          product.subCategory = updatedProduct.editSubCategory;
           product.isEditing = false;
         } else {
           console.error("שגיאה בעדכון המוצר");
@@ -152,7 +159,7 @@ export default {
         console.error("שגיאה בשמירת העריכה:", error);
       }
     },
-    confirmDelete(product) {
+    handleDeleteRequest(product) {
       this.productToDelete = product;
       this.showConfirmDeleteModal = true;
     },
@@ -183,6 +190,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 #inventory-display {
@@ -308,14 +316,26 @@ export default {
   border: 1px solid #ccc;
 }
 
-.modal-button{
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  background-color: #023047;
-  color: white;
+.modal-content {
+  background-color: white;
+  padding: 30px 20px;
+  /* border-radius: 20px; */
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  text-align: center;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* רווח של 20 פיקסלים בין הכפתורים */
+  margin-top: 20px;
+}
+.edit-button {
+  width: 2rem;
 }
 </style>

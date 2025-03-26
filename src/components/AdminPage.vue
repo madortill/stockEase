@@ -1,45 +1,52 @@
 <template>
   <div id="admin-page">
     <header class="header">
-      <h2 class = "welcome-admin">ברוך הבא, {{ adminData.fullName }}!</h2>
+      <h2 class="welcome-admin">ברוך הבא, {{ adminData.fullName }}!</h2>
     </header>
 
-    <div v-if = "activePage === null" class="button-container">
+    <div v-if="activePage === null" class="button-container">
       <button class="button-admin product-manage" @click="navigateTo('product-manage')">ניהול מלאי</button>
-      <button class="button-admin oreders" @click="navigateTo('oreders')">הזמנות</button>
+      <button class="button-admin orders" @click="navigateTo('orders')">הזמנות</button>
+      <button class="button-admin category" @click="navigateTo('category')">קטגוריות</button>
       <button class="button-admin none" @click="navigateTo('permissions')">הרשאות</button>
     </div>
 
     <!-- ניווט לדפים -->
     <div v-if="activePage === 'product-manage'">
-      <InventoryManagement /> <!-- דף ניהול מלאי -->
+      <InventoryManagement />
     </div>
-    <div v-if="activePage === 'oreders'">
-      <Oreders /> <!-- דף הזמנות -->
+    <div v-if="activePage === 'orders'">
+      <Orders />
+    </div>
+    <div v-if="activePage === 'category'">
+      <Categories />
     </div>
     <div v-if="activePage === 'permissions'">
-      <PermissionsPage /> <!-- דף הרשאות -->
+      <PermissionsPage />
     </div>
-    <img  v-if ="activePage != null"
+
+    <img v-if="activePage != null"
       src="@/assets/media/icons/home.svg"
       alt="בית"
       class="back-home-button"
-      @click = "toggleAbout"
+      @click="toggleAbout"
     />
   </div>
 </template>
 
 <script>
-import Oreders from "@/components/Orders.vue";
+import Orders from "@/components/Orders.vue";
 import InventoryManagement from "@/components/InventoryManagement.vue";
 import PermissionsPage from "@/components/PermissionsPage.vue";
+import Categories from "@/components/Categories.vue";
 
 export default {
   name: "AdminPage",
   components: {
-    Oreders,
+    Orders,
     InventoryManagement,
-    PermissionsPage
+    PermissionsPage,
+    Categories,
   },
   props: {
     adminData: {
@@ -50,16 +57,16 @@ export default {
   },
   data() {
     return {
-      activePage: null, // הדף הראשוני שמוצג
+      activePage: null,
     };
   },
   methods: {
     navigateTo(page) {
-      this.activePage = page; // שינוי של activePage כדי לעבור לדף המתאים
+      this.activePage = page;
     },
     toggleAbout() {
       this.activePage = null;
-    }
+    },
   },
 };
 </script>
@@ -67,19 +74,18 @@ export default {
 <style scoped>
 #admin-page {
   text-align: center;
-  color: white;
-  height: 100vh;
   color: #023047;
+  height: 100vh;
 }
 
 .header {
-  text-align: center;
+  text-align: right;
   background-color: #023047;
   color: white;
   width: 100vw;
-  text-align: right;
-  /* padding: 20px; */
+  padding: 15px;
 }
+
 .button-container {
   display: flex;
   flex-direction: column;
@@ -107,16 +113,12 @@ export default {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
-.close-button {
-  position: absolute;
-  /* top: 10px; */
-  right: 10px;
-  color: #000000;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.5rem;
-  background-color: #f1f1f1;
+
+.none {
+  background-color: rgb(177, 177, 177);
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .back-home-button {
@@ -129,12 +131,6 @@ export default {
 
 .welcome-admin {
   margin-right: 5%;
-}
-
-.none {
-  background-color: rgb(177, 177, 177);
-  pointer-events: none;
-  opacity: 0.6; /* כדי שיראה דיזייבל */
-  cursor: not-allowed;
+  font-size: 1.8rem;
 }
 </style>

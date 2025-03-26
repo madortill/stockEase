@@ -10,6 +10,7 @@ const mongoURI = process.env.MONGO_URI;
 const adminRoutes = require("./routes/adminRoutes");
 const guestRoutes = require("./routes/guestRoutes");
 const productsRoutes = require('./routes/productsRoute');
+const categoriesRoutes = require('./routes/categoriesRoutes');
 
 // הגדרות CORS
 app.use(
@@ -32,6 +33,8 @@ app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use("/api/guest", guestRoutes);
 app.use('/api/products', productsRoutes);
+app.use('/api/categories', categoriesRoutes);
+
 
 // חיבור למסד הנתונים
 mongoose
