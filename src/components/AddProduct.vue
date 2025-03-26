@@ -5,7 +5,12 @@
     <input v-model="name" placeholder="שם מוצר" />
     <input v-model.number="quantity" type="number" placeholder="כמות" />
     <input v-model.number="price" type="number" placeholder="מחיר ליחידה" />
-    <input v-model="category" placeholder="קטגוריה" />
+    <select v-model="category">
+      <option disabled value="">בחרי קטגוריה</option>
+      <option v-for="cat in categories" :key="cat._id" :value="cat.name">
+        {{ cat.name }}
+      </option>
+    </select>
     <input v-model="subCategory" placeholder="קטגוריה משנה" />
     <button class="add-button" @click="submitProduct">הוסף</button>
     <button class="cancel-button" @click="$emit('close')">X</button>
@@ -25,9 +30,23 @@ export default {
       category: "",
       subCategory: "",
       showError: false,
+      categories: [], // נוסיף מערך לקטגוריות
     };
   },
+  mounted() {
+    this.fetchCategories();
+  },
   methods: {
+    async fetchCategories() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/categories"
+        );
+        this.categories = response.data;
+      } catch (error) {
+        console.error("שגיאה בטעינת הקטגוריות:", error);
+      }
+    },
     async submitProduct() {
       if (!this.name || !this.quantity || !this.price || !this.category) {
         this.showError = true;
@@ -118,5 +137,13 @@ export default {
   color: red;
   font-size: 0.9rem;
   margin: -10px 0 10px 0;
+}
+
+.add-product-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
 }
 </style>

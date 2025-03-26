@@ -12,7 +12,7 @@
         class="search-input"
       />
     </div>
-
+    
     <div v-if="loading" class="loading">טוען נתונים...</div>
     <div v-else>
       <div v-if="filteredProducts.length > 0" class="product-list">
@@ -204,7 +204,7 @@ export default {
 .title {
   color: #023047;
   font-size: 2.5rem;
-  margin-bottom: 30px;
+  margin: 1rem;
 }
 
 .loading {
@@ -224,7 +224,7 @@ export default {
 .product-item {
   display: flex;
   justify-content: space-between;
-  padding: 12px 52px;
+  padding: 12px 20px;
   border-bottom: 1px solid #e0e0e0;
   background-color: #f9f9f9;
   border-radius: 6px;

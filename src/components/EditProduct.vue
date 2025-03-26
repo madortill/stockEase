@@ -34,7 +34,7 @@
       <button class="delete-button" @click="confirmDelete">מחק מוצר</button>
     </div>
 
-    <!-- <div v-if="showDeleteConfirm" class="delete-confirm-overlay">
+    <div v-if="showDeleteConfirm" class="delete-confirm-overlay">
       <div class="delete-confirm-box">
         <p>האם את בטוחה שברצונך למחוק את המוצר הזה?</p>
         <div class="buttons">
@@ -42,7 +42,7 @@
           <button @click="showDeleteConfirm = false">לא</button>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- <div v-if="showConfirmDeleteModal" class="modal-overlay">
       <div class="modal-content">
         <p>
