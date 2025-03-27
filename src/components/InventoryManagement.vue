@@ -12,7 +12,7 @@
         class="search-input"
       />
     </div>
-    
+
     <div v-if="loading" class="loading">טוען נתונים...</div>
     <div v-else>
       <div v-if="filteredProducts.length > 0" class="product-list">
@@ -26,7 +26,7 @@
               :product="product"
               @save="saveEditFromChild"
               @cancel="cancelEdit"
-              @delete="handleDeleteRequest"
+              @requestDelete="handleDeleteRequest"
             />
           </template>
           <template v-else>
@@ -124,8 +124,12 @@ export default {
       product.isEditing = true;
     },
     cancelEdit(product) {
-      product.isEditing = false;
+      const originalProduct = this.products.find((p) => p._id === product._id);
+      if (originalProduct) {
+        originalProduct.isEditing = false;
+      }
     },
+
     async saveEditFromChild(updatedProduct) {
       try {
         const response = await fetch(
@@ -191,14 +195,13 @@ export default {
 };
 </script>
 
-
 <style scoped>
 #inventory-display {
   min-height: 92vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding: 15px 20px;
 }
 
 .title {

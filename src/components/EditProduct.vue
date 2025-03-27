@@ -33,7 +33,7 @@
       <button @click="cancel">בטל</button>
       <button class="delete-button" @click="confirmDelete">מחק מוצר</button>
     </div>
-
+<!-- 
     <div v-if="showDeleteConfirm" class="delete-confirm-overlay">
       <div class="delete-confirm-box">
         <p>האם את בטוחה שברצונך למחוק את המוצר הזה?</p>
@@ -41,8 +41,8 @@
           <button @click="deleteProduct">כן, מחק</button>
           <button @click="showDeleteConfirm = false">לא</button>
         </div>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
     <!-- <div v-if="showConfirmDeleteModal" class="modal-overlay">
       <div class="modal-content">
         <p>
@@ -91,11 +91,10 @@ export default {
       this.$emit("cancel", this.localProduct);
     },
     confirmDelete() {
-      this.showDeleteConfirm = true;
+      this.$emit("requestDelete", this.localProduct);
     },
     deleteProduct() {
       this.showDeleteConfirm = false;
-      this.$emit("delete", this.localProduct);
     },
   },
 };
