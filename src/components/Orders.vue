@@ -1,16 +1,7 @@
 <template>
   <div id="orders-page">
     <h3>הזמנות</h3>
-    <p>כאן תוכל לנהל את ההזמנות שבוצעו ולבצע פעולות כמו אישור או ביטול.</p>
-    <div class="order-list">
-      <h4>הזמנות פתוחות:</h4>
-      <ul>
-        <li>הזמנה #1</li>
-        <li>הזמנה #2</li>
-        <li>הזמנה #3</li>
-      </ul>
-    </div>
-    <button @click="processOrder">עבד על הזמנה</button>
+    
   </div>
 </template>
 
@@ -19,8 +10,7 @@ export default {
   name: "Oreders",
   methods: {
     processOrder() {
-      console.log("עיבוד הזמנה");
-      // כאן תוכל להוסיף את הלוגיקה לעיבוד הזמנה
+
     },
   },
 };
@@ -29,7 +19,6 @@ export default {
 <style scoped>
 #orders-page {
   height: 92vh;
-  background-color: #f1f1f1;
   display: flex;
   flex-direction: column;
   align-items: center;
