@@ -31,8 +31,9 @@
       </p>
     </div>
 
-    <NewGuest v-if="showNewGuestForm" @login-success="handleNewGuestSuccess" />
-
+    <NewGuest v-if="showNewGuestForm" @login-success="handleNewGuestSuccess" 
+    />
+    <p v-if = "showNewGuestForm === true" class="link-text" @click="showNewGuestForm = false">חזרה למסך ההתחברות</p>
     <!-- הודעה מוקפצת -->
     <div v-if="showPopup" class="popup">
       <p>{{ popupMessage }}</p>

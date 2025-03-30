@@ -2,64 +2,55 @@
   <div id="guest-page">
     <header>
       <h1>ברוך הבא! {{ guestData.fullName }}</h1>
-      <div class = "guest-data">
-        <p> מספר אישי: {{ guestData.personalNumber }}</p>
+      <div class="guest-data">
+        <p>מספר אישי: {{ guestData.personalNumber }}</p>
       </div>
     </header>
 
-    <section class="search">
-      <input type="text" v-model="searchQuery" placeholder="חפש מוצר..." />
+    <section class="actions">
+      <section class="actions">
+        <button @click="toggleSection('orderRequest')">בקשת הזמנה</button>
+        <button @click="toggleSection('orderHistory')">הזמנות</button>
+      </section>
+      <!-- <button @click="">בדיקת מלאי ציוד</button> -->
     </section>
 
-    <section class="products">
-      <div
-        v-for="product in filteredProducts"
-        :key="product.id"
-        class="product-card"
-      >
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.description }}</p>
-        <span>{{ product.price }} ₪</span>
-      </div>
-    </section>
+    <OrderRequest
+      v-if="activeSection === 'orderRequest'"
+      :guestData="guestData"
+      @order-submitted="toggleSection(null)"
+    />
+
+    <GuestOrders v-if="activeSection === 'orderHistory'" />
   </div>
 </template>
 
 <script>
+import OrderRequest from "@/components/OrderRequest.vue";
+import GuestOrders from "@/components/GuestOrders.vue";
+
 export default {
   name: "GuestPage",
   props: {
     guestData: {
       type: Object,
       required: true,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
+  },
+  components: {
+    OrderRequest,
+    GuestOrders,
   },
   data() {
     return {
-      searchQuery: "",
-      products: [
-        { id: 1, name: "כיסא משרדי", description: "נוח ואיכותי", price: 299 },
-        { id: 2, name: "שולחן עבודה", description: "עמיד ומעוצב", price: 599 },
-        {
-          id: 3,
-          name: "מסך מחשב 24'",
-          description: "רזולוציה גבוהה",
-          price: 899,
-        },
-      ],
+      activeSection: null,
     };
   },
-  computed: {
-    filteredProducts() {
-      return this.products.filter((product) =>
-        product.name.includes(this.searchQuery)
-      );
-    },
-  },
   methods: {
-    login() {
-      this.$emit("login");
+    toggleSection(sectionName) {
+      this.activeSection =
+        this.activeSection === sectionName ? null : sectionName;
     },
   },
 };
@@ -67,7 +58,7 @@ export default {
 
 <style scoped>
 #guest-page {
-  padding: 20px;
+  /* padding: 20px; */
   text-align: center;
 }
 
@@ -75,10 +66,10 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #7c7b79;
+  background-color: #023047;
   color: white;
   padding: 10px 20px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 header button {
@@ -101,18 +92,62 @@ header button {
   border-radius: 5px;
 }
 
-.products {
+.actions {
+  margin: 30px auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 15px;
-  justify-content: center;
+  align-items: center;
+  max-width: 300px;
 }
 
-.product-card {
-  background: #e9c46a;
-  padding: 15px;
-  border-radius: 10px;
-  width: 200px;
-  text-align: center;
+.actions button {
+  width: 100%;
+  padding: 12px 20px;
+  background-color: #023047;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s;
+}
+
+.actions button:hover {
+  background-color: #03546e;
+}
+
+.form-section {
+  margin-top: 20px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  /* border-radius: 10px; */
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: right;
+}
+
+.form-section label,
+.form-section textarea,
+.form-section select,
+.form-section input {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+}
+
+.form-section button {
+  background-color: #219ebc;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.form-section button:hover {
+  background-color: #126782;
 }
 </style>

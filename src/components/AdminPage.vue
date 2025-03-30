@@ -95,8 +95,8 @@ export default {
 }
 
 .button-admin {
-  background-color: #ffb703;
-  color: black;
+  background-color: #004e75;
+  color: white;
   border: none;
   padding: 15px 25px;
   cursor: pointer;
