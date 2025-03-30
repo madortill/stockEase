@@ -25,7 +25,7 @@
         <p>{{ popupMessage }}</p>
         <!-- <button class="close-popup" @click="closePopup">אישור</button> -->
       </div>
-    </transition>
+    </transition >
   </div>
 </template>
 
