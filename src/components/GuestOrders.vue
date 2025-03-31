@@ -21,8 +21,16 @@
     />
 
     <ul>
-      <li v-for="order in filteredAndSearchedOrders" :key="order.id">
-        {{ order.name }} - {{ order.quantity }} יח'
+      <li
+        v-for="order in filteredAndSearchedOrders"
+        :key="order._id"
+        :class="['order-item', order.status]"
+      >
+        <p><strong>מוצר:</strong> {{ order.product }}</p>
+        <p><strong>כמות:</strong> {{ order.quantity }} יח'</p>
+        <p><strong>סטטוס:</strong> {{ translateStatus(order.status) }}</p>
+        <p><strong>תאריך:</strong> {{ formatDate(order.createdAt) }}</p>
+        <p><strong>מספר הזמנה:</strong> {{ order.orderId }}</p>
       </li>
     </ul>
   </div>
@@ -31,16 +39,18 @@
 <script>
 export default {
   name: "GuestOrders",
+  props: {
+    guestPersonalNumber: {
+      type: String,
+      required: true,
+    },
+  },
+
   data() {
     return {
       currentFilter: "all",
       searchQuery: "",
-      orders: [
-        { id: 1, name: "שולחן עבודה", quantity: 1, status: "approved" },
-        { id: 2, name: "כיסא משרדי", quantity: 2, status: "sent" },
-        { id: 3, name: "מדף קיר", quantity: 1, status: "rejected" },
-        { id: 4, name: "שולחן קפה", quantity: 1, status: "approved" },
-      ],
+      orders: [],
       filterOptions: [
         { label: "כל ההזמנות", value: "all" },
         { label: "נשלחו", value: "sent" },
@@ -49,20 +59,59 @@ export default {
       ],
     };
   },
+  async mounted() {
+    await this.fetchOrders();
+  },
   computed: {
     filteredAndSearchedOrders() {
-      let orders = this.currentFilter === "all"
-        ? this.orders
-        : this.orders.filter(order => order.status === this.currentFilter);
+      let orders =
+        this.currentFilter === "all"
+          ? this.orders
+          : this.orders.filter((order) => order.status === this.currentFilter);
 
       if (this.searchQuery.trim()) {
         const query = this.searchQuery.toLowerCase();
-        orders = orders.filter(order => order.name.toLowerCase().includes(query));
+        orders = orders.filter((order) =>
+          order.name.toLowerCase().includes(query)
+        );
       }
 
       return orders;
     },
   },
+
+  methods: {
+  async fetchOrders() {
+    try {
+      const res = await fetch("http://localhost:5000/api/orders");
+      const data = await res.json();
+      this.orders = data.filter(
+        (order) => order.personalNumber === this.guestPersonalNumber
+      );
+    } catch (err) {
+      console.error("שגיאה בטעינת ההזמנות:", err);
+    }
+  },
+  translateStatus(status) {
+    switch (status) {
+      case "approved":
+        return "אושרה";
+      case "sent":
+        return "נשלחה";
+      case "rejected":
+        return "נדחתה";
+      default:
+        return "לא ידוע";
+    }
+  },
+  formatDate(date) {
+    return new Date(date).toLocaleString("he-IL", {
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  },
+}
+
 };
 </script>
 
@@ -108,4 +157,6 @@ export default {
   text-align: right;
   font-family: inherit;
 }
+
+
 </style>

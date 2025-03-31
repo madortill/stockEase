@@ -13,4 +13,13 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(500).json({ error: 'שגיאה בשליפת ההזמנות', details: err });
+  }
+});
+
 module.exports = router;

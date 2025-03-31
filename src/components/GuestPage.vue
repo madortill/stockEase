@@ -21,7 +21,7 @@
       @order-submitted="toggleSection(null)"
     />
 
-    <GuestOrders v-if="activeSection === 'guestOrder'" />
+    <GuestOrders v-if="activeSection === 'guestOrder'" :guestPersonalNumber="guestData.personalNumber"  />
   </div>
 </template>
 
