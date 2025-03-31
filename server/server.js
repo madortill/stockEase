@@ -4,7 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 4000;
 const mongoURI = process.env.MONGO_URI;
 
 const adminRoutes = require("./routes/adminRoutes");
