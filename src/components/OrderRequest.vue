@@ -68,9 +68,17 @@ export default {
       return Math.floor(100000 + Math.random() * 900000); // מספר בן 6 ספרות
     },
 
-    submitOrder() {
+    async submitOrder() {
       if (!this.selectedProduct || this.quantity < 1) {
         alert("אנא מלאי את כל השדות כראוי.");
+        return;
+      }
+
+      const productData = this.selectedProductData;
+      if (this.quantity > productData.quantity) {
+        alert(
+          `אין מספיק מלאי. ניתן להזמין עד ${productData.quantity} יחידות מהמוצר "${productData.name}".`
+        );
         return;
       }
 
@@ -82,18 +90,31 @@ export default {
         quantity: this.quantity,
         fullName: this.guestData.fullName,
         personalNumber: this.guestData.personalNumber,
-        phoneNumber: this.guestData.phoneNumber, 
+        phoneNumber: this.guestData.phoneNumber,
       };
-      console.log(orderData);
-      alert(
-        `הוזמנה בקשה מספר ${orderId} ל-${orderData.quantity} יחידות של "${orderData.product}" ע״י ${orderData.fullName}`
-      );
 
-      this.$emit("order-submitted", orderData);
+      try {
+        const res = await fetch("http://localhost:5000/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        });
 
-      // איפוס שדות טופס
-      this.selectedProduct = "";
-      this.quantity = 1;
+        if (!res.ok) throw new Error("שמירת ההזמנה נכשלה");
+
+        alert(
+          `הוזמנה בקשה מספר ${orderId} ל-${orderData.quantity} יחידות של "${orderData.product}" ע״י ${orderData.fullName}`
+        );
+
+        this.$emit("order-submitted", orderData);
+        this.selectedProduct = "";
+        this.quantity = 1;
+      } catch (error) {
+        console.error(error);
+        alert("אירעה שגיאה בשליחת הבקשה. נסי שוב.");
+      }
     },
   },
 };

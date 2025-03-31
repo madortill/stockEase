@@ -30,7 +30,7 @@ export default {
   props: {
     userType: String,
     userData: Object,
-  },
+  }, 
   components: {
     AdminPage,
     GuestPage,

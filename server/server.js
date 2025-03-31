@@ -11,6 +11,8 @@ const adminRoutes = require("./routes/adminRoutes");
 const guestRoutes = require("./routes/guestRoutes");
 const productsRoutes = require('./routes/productsRoute');
 const categoriesRoutes = require('./routes/categoriesRoutes');
+const orderRoutes = require('./routes/ordersRoute');
+console.log("✅ ordersRoute loaded");
 
 // הגדרות CORS
 app.use(
@@ -34,7 +36,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/guest", guestRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/categories', categoriesRoutes);
-
+app.use('/api/orders', orderRoutes);
 
 // חיבור למסד הנתונים
 mongoose

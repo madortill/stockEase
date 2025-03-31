@@ -7,7 +7,7 @@ const guestSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   role: { type: String, required: true },
   rank: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now } // מוסיף את התאריך הנוכחי אוטומטית
+  createdAt: { type: Date, default: Date.now } 
 });
 
 const Guest = mongoose.model('Guest', guestSchema);

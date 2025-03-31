@@ -10,18 +10,18 @@
     <section class="actions">
       <section class="actions">
         <button @click="toggleSection('orderRequest')">בקשת הזמנה</button>
-        <button @click="toggleSection('orderHistory')">הזמנות</button>
+        <button @click="toggleSection('guestOrder')">הזמנות</button>
       </section>
       <!-- <button @click="">בדיקת מלאי ציוד</button> -->
     </section>
-
+    
     <OrderRequest
       v-if="activeSection === 'orderRequest'"
       :guestData="guestData"
       @order-submitted="toggleSection(null)"
     />
 
-    <GuestOrders v-if="activeSection === 'orderHistory'" />
+    <GuestOrders v-if="activeSection === 'guestOrder'" />
   </div>
 </template>
 

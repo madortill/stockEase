@@ -95,6 +95,10 @@ export default {
           this.$emit("login-success", {
             fullName,
             personalNumber: response.data.user.personalNumber,
+            phoneNumber: response.data.user.phoneNumber,
+            createdAt: response.data.user.createdAt,
+            role: response.data.user.role,
+            rank: response.data.user.rank,
             userType: "guest",
           });
         } else {
