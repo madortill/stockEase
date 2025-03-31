@@ -79,15 +79,15 @@ export default {
 </script>
 
 <style>
-/* @font-face {
-  font-family: "Heebo";
-  src: url("@/assets/fonts/heebo.regular.ttf");
+ @font-face {
+  font-family: "Assistant";
+  src: url("@/assets/fonts/Assistant-VariableFont_wght.ttf");
 }
-
+/* 
 @font-face {
   font-family: "Heebo-Bold";
   src: url("@/assets/fonts/heebo.black.ttf");
-} */
+} */ 
 
 * {
   overflow: hidden;
