@@ -33,7 +33,7 @@ export default {
       if (this.categoryName.trim() === "") return;
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/categories",
+          "http://localhost:/api/categories",
           { name: this.categoryName.trim() }
         );
         this.$emit("category-added", response.data);

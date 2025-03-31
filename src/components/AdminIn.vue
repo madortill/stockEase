@@ -51,7 +51,7 @@ export default {
       }
 
       try {
-        const response = await axios.post('http://localhost:5000/api/admin/login', {
+        const response = await axios.post('https://stockease-y1zr.onrender.com/api/admin/login', {
           username: this.username,
           password: this.password
         });

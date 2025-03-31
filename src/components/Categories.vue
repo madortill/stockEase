@@ -76,7 +76,7 @@ export default {
     async fetchCategories() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/categories"
+          "https://stockease-y1zr.onrender.com/api/categories"
         );
         this.categories = response.data;
       } catch (error) {
@@ -97,7 +97,7 @@ export default {
     async confirmDelete() {
       try {
         await axios.delete(
-          `http://localhost:5000/api/categories/${this.categoryToDelete}`
+          `https://stockease-y1zr.onrender.com/api/categories/${this.categoryToDelete}`
         );
         this.categories = this.categories.filter(
           (cat) => cat._id !== this.categoryToDelete

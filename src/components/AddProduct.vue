@@ -40,7 +40,7 @@ export default {
     async fetchCategories() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/categories"
+          "https://stockease-y1zr.onrender.com/api/categories"
         );
         this.categories = response.data;
       } catch (error) {
@@ -65,7 +65,7 @@ export default {
         });
 
         const response = await axios.post(
-          "http://localhost:5000/api/products",
+          "https://stockease-y1zr.onrender.com//api/products",
           {
             name: this.name,
             quantity: this.quantity,

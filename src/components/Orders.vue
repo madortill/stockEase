@@ -50,7 +50,7 @@ export default {
   methods: {
     async fetchOrders() {
       try {
-        const res = await fetch("http://localhost:5000/api/orders");
+        const res = await fetch("https://stockease-y1zr.onrender.com/api/orders");
         const data = await res.json();
         this.orders = data;
       } catch (err) {

@@ -56,7 +56,7 @@ export default {
   methods: {
     async fetchProducts() {
       try {
-        const res = await fetch("http://localhost:5000/api/products");
+        const res = await fetch("https://stockease-y1zr.onrender.com/api/products");
         const data = await res.json();
         this.products = data;
       } catch (err) {
@@ -94,7 +94,7 @@ export default {
       };
 
       try {
-        const res = await fetch("http://localhost:5000/api/orders", {
+        const res = await fetch("https://stockease-y1zr.onrender.com/api/orders", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -129,7 +129,7 @@ export default {
 
       // שליחת הנתונים לשרת
       try {
-        await axios.post("http://localhost:5000/api/guest/add", {
+        await axios.post("https://stockease-y1zr.onrender.com/api/guest/add", {
           firstName: this.firstName.trim(),
           lastName: this.lastName.trim(),
           personalNumber: this.personalNumber.trim(),

@@ -108,7 +108,7 @@ export default {
     },
     async fetchProducts() {
       try {
-        const response = await fetch("http://localhost:5000/api/products");
+        const response = await fetch("https://stockease-y1zr.onrender.com/api/products");
         const data = await response.json();
         this.products = data.map((p) => ({
           ...p,
@@ -133,7 +133,7 @@ export default {
     async saveEditFromChild(updatedProduct) {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products/${updatedProduct._id}`,
+          `https://stockease-y1zr.onrender.com/api/products/${updatedProduct._id}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -170,7 +170,7 @@ export default {
     async deleteConfirmed() {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products/${this.productToDelete._id}`,
+          `https://stockease-y1zr.onrender.com/api/products/${this.productToDelete._id}`,
           { method: "DELETE" }
         );
         if (response.ok) {

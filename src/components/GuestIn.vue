@@ -81,7 +81,7 @@ export default {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/guest/login",
+          "https://stockease-y1zr.onrender.com/api/guest/login",
           {
             fullName: this.fullName.trim(),
             personalNumber: this.personalNumber.trim(),
