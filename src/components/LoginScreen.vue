@@ -1,10 +1,10 @@
 <template>
   <div id="login-screen">
     <div v-if="currentView === 'login'" class="home-container">
-      <h1>ניהול מחסן</h1>
-      <p>מסך התחברות</p>
+      <h1 class = "stack-title">ניהול מחסן</h1>
+      <p class = "login-text">מסך התחברות</p>
       <button class="admin-button" @click="setView('admin')">כניסת מנהל</button>
-      <button class="guest-button" @click="setView('guest')">כניסת אורח</button>
+      <button class="guest-button" @click="setView('guest')">כניסת משתמש</button>
     </div>
     <AdminIn
       v-if="currentView === 'admin'"
@@ -69,19 +69,19 @@ export default {
   text-align: center;
 }
 
-h1 {
+.stack-title{
   font-size: 2.5rem;
 }
 
-p {
+.login-text{
   font-size: 1.5rem;
-  margin-top: 10px;
+  margin-top: 0.5rem;
 }
 
 .admin-button,
 .guest-button {
-  margin-top: 20px;
-  padding: 10px 50px;
+  margin-top: 1.5rem;
+  padding: 1rem 2rem;
   font-size: 1rem;
   background-color: #023047;
   color: white;
@@ -92,10 +92,10 @@ p {
 }
 
 .back-button {
-  width: 12%;
+  width: 3rem;
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  bottom: 1rem;
+  left: 1rem;
   cursor: pointer;
 }
 

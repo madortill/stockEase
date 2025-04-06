@@ -201,7 +201,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px 20px;
+  padding: 2rem 2rem;
 }
 
 .title {
@@ -216,26 +216,26 @@ export default {
 }
 .product-list {
   width: 100%;
-  max-width: 600px;
-  height: 300px; /* גובה קבוע */
-  overflow-y: auto; /* גלילה פנימית */
-  display: block; /* לא flex — זה גורם קפיצות */
-  padding: 10px;
+  max-width: 600rem;
+  height: 300rem; 
+  overflow-y: auto; 
+  display: block;
+  padding: 1rem;
   border-radius: 10px;
 }
 
 .product-item {
   display: flex;
   justify-content: space-between;
-  padding: 12px 20px;
+  padding: 1.2rem 3rem;
   border-bottom: 1px solid #e0e0e0;
   background-color: #f9f9f9;
   border-radius: 6px;
-  margin-bottom: 10px; /* מוסיף רווח בין פריטים */
+  margin-bottom: 1rem; 
 }
 
 .product-item:not(:last-child) {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .product-name {
@@ -248,22 +248,22 @@ export default {
 
 .no-products {
   color: #777;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
 .search-container {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  gap: 10px;
-  width: 80%;
-  max-width: 500px;
-  margin-bottom: 40px;
+  gap: 1rem;
+  width: 20rem;
+  max-width: 50rem;
+  margin-bottom: 2rem;
 }
 
 .search-input {
   flex: 1;
-  padding: 10px 14px;
+  padding: 1rem 1rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -278,7 +278,7 @@ export default {
 }
 
 .add-product-button {
-  padding: 0px 20px;
+  padding: 0.2rem 2rem;
   font-size: 1rem;
   background-color: #023047;
   color: white;
@@ -303,7 +303,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
+/* פה עצרתי */
 .modal-content {
   background-color: white;
   padding: 20px;

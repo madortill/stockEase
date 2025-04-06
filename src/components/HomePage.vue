@@ -88,16 +88,15 @@ export default {
 .logout-confirm-box {
   background-color: white;
   color: #023047;
-  padding: 30px;
-  /* border-radius: 12px; */
+  padding: 2rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   text-align: center;
   width: 100vw;
 }
 
 .logout-confirm-box p {
-  margin-bottom: 20px;
-  font-size: 18px;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
 }
 
 .logout-confirm-box .buttons {
@@ -106,13 +105,13 @@ export default {
 }
 
 .logout-confirm-box button {
-  padding: 10px 20px;
+  padding: 1rem 1.3rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   cursor: pointer;
   background-color: #ffb703;
   transition: background-color 0.3s;
-  font-size: 16px;
+  font-size: 1.2rem;
 }
 
 .logout-confirm-box button:hover {

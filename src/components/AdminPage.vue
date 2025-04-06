@@ -83,14 +83,14 @@ export default {
   background-color: #023047;
   color: white;
   width: 100vw;
-  padding: 15px;
+  padding:1rem;
 }
 
 .button-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 2rem;
+  margin-top: 5rem;
   align-items: center;
 }
 
@@ -98,13 +98,13 @@ export default {
   background-color: #004e75;
   color: white;
   border: none;
-  padding: 15px 25px;
+  padding: 1.5rem 3.5rem;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 1.3rem;
   border-radius: 12px;
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 200px;
+  width: 20rem;
   text-align: center;
 }
 

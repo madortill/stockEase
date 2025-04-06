@@ -46,10 +46,10 @@ export default {
 <style scoped>
 .button-about {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
+  top: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   background-color: #003049;
   color: white;
@@ -66,33 +66,33 @@ export default {
 /* גודל בינוני לטאבלטים */
 @media (max-width: 768px) {
   .button-about {
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
     font-size: 1.5rem;
-    right: 15px;
+    right: 1rem;
   }
 }
 
 /* גודל קטן לניידים */
 @media (max-width: 480px) {
   .button-about {
-    width: 40px;
-    height: 40px;
-    font-size: 1.3rem;
-    right: 10px;
+    width: 2rem;
+    height: 2.2rem;
+    font-size: 1.4rem;
+    right: 1rem;
   }
 }
 
 .about-div {
   background-color: white;
   /* height: 60%; */
-  width: 60%;
+  width: 18rem;
   position: fixed;
-  top: 50%;
+  top:50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  padding: 20px;
+  padding: 2rem;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   z-index: 1000;
@@ -100,8 +100,8 @@ export default {
 
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 1rem;
+  right: 1rem;
   color: #000000;
   border: none;
   border-radius: 50%;

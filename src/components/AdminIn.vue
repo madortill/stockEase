@@ -1,6 +1,6 @@
 <template>
   <div id="admin-in">
-    <h1>ברוך הבא, מנהל!</h1>
+    <h1 class = "welcom-text">ברוך הבא, מנהל!</h1>
     <div class="admin-login">
       <input
         class="user-admin"
@@ -64,7 +64,7 @@ export default {
             fullName: response.data.admin.username,
             userType: "admin",
           });
-        }, 1000);
+        }, 2000);
 
       } catch (error) {
         this.errorMessage = error.response?.data?.message || "שגיאה בשרת";
@@ -88,13 +88,13 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 20px;
-  margin-top: -50px;
+  padding: 2rem;
+  margin-top: -2rem;
 }
 
-h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+.welcom-text {
+  font-size: 2.3rem;
+  margin-bottom: 1rem;
 }
 
 .admin-login {
@@ -102,14 +102,14 @@ h1 {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 300px;
+  max-width: 30rem;
 }
 
 .user-admin,
 .password-admin {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 1rem;
+  margin: 0.5rem 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
@@ -117,8 +117,8 @@ h1 {
 
 .login-admin {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+  padding: 1rem;
+  margin-top: 3.5rem;
   font-size: 1rem;
   background-color: #023047;
   color: white;
@@ -126,6 +126,7 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
+  font-size: 1.1rem;
 }
 
 .login-admin:hover {
@@ -135,7 +136,7 @@ h1 {
 .error {
   color: red;
   font-size: 0.9rem;
-  margin-top: 5px;
+  margin-top: 1rem;
 }
 
 /* עיצוב ההודעה המוקפצת */
@@ -146,28 +147,13 @@ h1 {
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.85);
   color: white;
-  padding: 20px 30px;
+  padding: 1rem 3rem;
   border-radius: 10px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* כפתור אישור בהודעה */
-.close-popup {
-  margin-top: 15px;
-  padding: 8px 20px;
-  background-color: #008cba;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.close-popup:hover {
-  background-color: #005f73;
-}
 
 /* אנימציה להופעה והיעלמות של ההודעה */
 .fade-enter-active,
