@@ -31,13 +31,19 @@
       </p>
     </div>
 
-    <NewGuest v-if="showNewGuestForm" @login-success="handleNewGuestSuccess" 
-    />
-    <p v-if = "showNewGuestForm === true" class="link-text" @click="showNewGuestForm = false">חזרה למסך ההתחברות</p>
-    <!-- הודעה מוקפצת -->
-    <div v-if="showPopup" class="popup">
-      <p>{{ popupMessage }}</p>
-    </div>
+    <NewGuest v-if="showNewGuestForm" @login-success="handleNewGuestSuccess" />
+    <p
+      v-if="showNewGuestForm === true"
+      class="link-text"
+      @click="showNewGuestForm = false"
+    >
+      חזרה למסך ההתחברות
+    </p>
+    <transition name="fade">
+      <div v-if="showPopup" class="popup">
+        <p>{{ popupMessage }}</p>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -91,8 +97,11 @@ export default {
         if (response.data.success && response.data.user) {
           const fullName = `${response.data.user.firstName} ${response.data.user.lastName}`;
           console.log("התקבל משתמש:", response.data.user);
+      
           this.showPopupMessage(`ברוך הבא, ${fullName}!`);
-          this.$emit("login-success", {
+          this.errorMessage = "";
+          setTimeout(() => {
+            this.$emit("login-success", {
             fullName,
             personalNumber: response.data.user.personalNumber,
             phoneNumber: response.data.user.phoneNumber,
@@ -101,6 +110,8 @@ export default {
             rank: response.data.user.rank,
             userType: "guest",
           });
+          }, 2000);
+          
         } else {
           this.loginError = response.data.message || "משתמש לא נמצא";
         }
@@ -108,13 +119,9 @@ export default {
         this.loginError = "שגיאה בהתחברות";
       }
     },
-
     showPopupMessage(message) {
       this.popupMessage = message;
       this.showPopup = true;
-      setTimeout(() => {
-        this.showPopup = false;
-      }, 5000);
     },
 
     handleNewGuestSuccess(userData) {
@@ -122,7 +129,6 @@ export default {
       let personalNumber;
 
       if (userData.fullName) {
-   
         console.log("הקריאה הגיעה מ-NewGuest");
         fullName = userData.fullName;
         personalNumber = userData.personalNumber;
@@ -158,26 +164,26 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding: 2rem 2rem;
 }
 
 h1 {
   color: #023047;
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
   font-size: 2rem;
 }
 
 .guest-login {
   width: 100%;
-  max-width: 350px;
+  max-width: 350rem;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .full-name,
 .personal-number {
-  padding: 12px;
+  padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
@@ -193,7 +199,7 @@ h1 {
 
 .submit-button {
   width: 100%;
-  padding: 12px;
+  padding: 1rem;
   font-size: 1rem;
   background-color: #023047;
   color: white;
@@ -210,7 +216,7 @@ h1 {
 .error-message {
   color: red;
   font-size: 0.9rem;
-  margin-top: -10px;
+  margin-top: 0.1rem;
   text-align: right;
 }
 
@@ -234,30 +240,21 @@ h1 {
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.85);
   color: white;
-  padding: 20px 40px;
-  border-radius: 12px;
-  font-size: 1.2rem;
+  padding: 1rem 3rem;
+  border-radius: 10px;
+  font-size: 1.5rem;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  animation: fadeInOut 2.5s ease-in-out;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -60%);
-  }
-  10% {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-  90% {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -40%);
-  }
+/* אנימציה להופעה והיעלמות של ההודעה */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

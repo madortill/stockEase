@@ -23,7 +23,6 @@
     <transition name="fade">
       <div v-if="showPopup" class="popup">
         <p>{{ popupMessage }}</p>
-        <!-- <button class="close-popup" @click="closePopup">אישור</button> -->
       </div>
     </transition >
   </div>
@@ -73,9 +72,6 @@ export default {
     showPopupMessage(message) {
       this.popupMessage = message;
       this.showPopup = true;
-    },
-    closePopup() {
-      this.showPopup = false;
     },
   },
 };

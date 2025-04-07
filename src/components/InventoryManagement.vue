@@ -278,7 +278,7 @@ export default {
 }
 
 .add-product-button {
-  padding: 0.2rem 2rem;
+  padding: 0.4rem 2.5rem;
   font-size: 1rem;
   background-color: #023047;
   color: white;
@@ -303,40 +303,33 @@ export default {
   align-items: center;
   justify-content: center;
 }
-/* פה עצרתי */
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  /* border-radius: 12px; */
-  width: 90%;
-  max-width: 400px;
-}
 
 .edit-input {
-  margin: 5px;
-  padding: 5px 10px;
+  margin: 5rem;
+  padding: 5rem 10rem;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
 .modal-content {
   background-color: white;
-  padding: 30px 20px;
+  padding: 4rem 3rem;
   /* border-radius: 20px; */
-  width: 90%;
-  max-width: 450px;
+  width: 20rem;
+  max-width: 30rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 2rem;
   align-items: center;
   text-align: center;
+  position: relative;
 }
 .modal-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px; /* רווח של 20 פיקסלים בין הכפתורים */
-  margin-top: 20px;
+  gap: 2.5rem; 
+  margin-top: 2rem;
 }
 .edit-button {
   width: 2rem;

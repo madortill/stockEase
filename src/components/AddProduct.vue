@@ -1,6 +1,6 @@
 <template>
   <div class="add-product-form">
-    <h3>הוספת מוצר חדש</h3>
+    <h1>הוספת מוצר חדש</h1>
     <p v-if="showError" class="error-message">אנא מלאי את כל השדות</p>
     <input v-model="name" placeholder="שם מוצר" />
     <input v-model.number="quantity" type="number" placeholder="כמות" />
@@ -96,21 +96,21 @@ export default {
 .add-product-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.2rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 400rem;
   margin: 0 auto;
 }
 
 .add-product-form input {
-  padding: 10px;
+  padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .add-button {
-  padding: 10px;
+  padding: 1rem;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
@@ -131,16 +131,18 @@ export default {
   font-size: 1.8rem;
   background-color: white;
   padding: 0;
+  top:1rem;
+  right: 1rem;
 }
 
 .error-message {
   color: red;
   font-size: 0.9rem;
-  margin: -10px 0 10px 0;
+  margin: 0;
 }
 
 .add-product-form select {
-  padding: 10px;
+  padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
