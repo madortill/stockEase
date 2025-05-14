@@ -80,7 +80,7 @@ export default {
         );
         this.categories = response.data;
       } catch (error) {
-        console.error("שגיאה בטעינת הקטגוריות:", error);
+        console.error(" שגיאה בטעינת הקטגוריות:", error);
       }
     },
 
